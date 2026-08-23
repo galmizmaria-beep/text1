@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextLab — редактор интерактивных текстовых заданий</title>
+
+  <!-- PDF.js для чтения PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <style>
+    :root {
+      --accent: #4f46e5;
+      --accent-dark: #3730a3;
+      --bg: #eef2ff;
+      --panel: #ffffff;
+      --border: #dbe1f0;
+      --text: #172033;
+      --muted: #667085;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #f59e0b;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-width: 1100px;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button,
+    select,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 9px;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(0.98);
+    }
+
+    .topbar {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 18px;
+      background: #172033;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      margin-right: 10px;
+      white-space: nowrap;
+    }
+
+    .topbar button {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      padding: 9px 14px;
+    }
+
+    .topbar button.primary {
+      background: var(--accent);
+    }
+
+    .topbar .spacer {
+      flex: 1;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 340px minmax(450px, 1fr) minmax(400px, 1fr);
+      height: calc(100vh - 64px);
+      overflow: hidden;
+    }
+
+    .sidebar,
+    .editor-panel,
+    .preview-panel {
+      overflow-y: auto;
+      padding: 18px;
+    }
+
+    .sidebar {
+      background: white;
+      border-right: 1px solid var(--border);
+    }
+
+    .editor-panel {
+      border-right: 1px solid var(--border);
+      background: #f8faff;
+    }
+
+    .preview-panel {
+      background: #e8edf7;
+    }
+
+    .section {
+      margin-bottom: 18px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .section h3 {
+      margin: 0 0 14px;
+      font-size: 15px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 10px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(79,70,229,.1);
+    }
+
+    input[type="color"] {
+      width: 100%;
+      height: 40px;
+      padding: 3px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .small-button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background: #eef2ff;
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+
+    .danger-button {
+      background: #fee2e2 !important;
+      color: var(--danger) !important;
+    }
+
+    #sourceText {
+      width: 100%;
+      min-height: calc(100vh - 155px);
+      resize: none;
+      line-height: 1.7;
+      font-size: 16px;
+      padding: 18px;
+    }
+
+    .editor-title,
+    .preview-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .editor-title h2,
+    .preview-title h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .status {
+      font-size: 12px;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .preview-frame {
+      min-height: calc(100vh - 120px);
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(31,41,55,.12);
+      overflow: hidden;
+    }
+
+    .student-header {
+      padding: 18px 22px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white;
+    }
+
+    .student-header h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+    }
+
+    .student-header p {
+      margin: 0;
+      opacity: .85;
+    }
+
+    .student-toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .student-toolbar button {
+      padding: 9px 12px;
+      background: #eef2ff;
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+
+    .student-content {
+      padding: 25px;
+    }
+
+    #previewText {
+      white-space: pre-wrap;
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    .task-box,
+    .analysis-box {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      background: #f8faff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .task-box.active,
+    .analysis-box.active {
+      display: block;
+    }
+
+    .task-menu {
+      display: grid;
+      gap: 8px;
+    }
+
+    .task-menu button {
+      text-align: left;
+      padding: 11px 13px;
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .subtasks {
+      display: none;
+      gap: 8px;
+      margin-top: 8px;
+      padding-left: 12px;
+    }
+
+    .subtasks.active {
+      display: grid;
+    }
+
+    .subtasks button {
+      background: #f5f3ff;
+      color: var(--accent-dark);
+    }
+
+    .answer-input {
+      display: inline-block;
+      width: 28px;
+      height: 34px;
+      margin: 1px 2px;
+      text-align: center;
+      border: 2px solid #94a3b8;
+      border-radius: 6px;
+      background: white;
+      vertical-align: middle;
+      font-weight: 700;
+    }
+
+    .answer-input.correct {
+      border-color: var(--success);
+      background: #dcfce7;
+      color: var(--success);
+    }
+
+    .answer-input.wrong {
+      border-color: var(--danger);
+      background: #fee2e2;
+      color: var(--danger);
+    }
+
+    .check-button {
+      margin-top: 18px;
+      padding: 11px 18px;
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+    }
+
+    .task-result {
+      margin-top: 10px;
+      font-weight: 700;
+    }
+
+    .analysis-plan {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .analysis-plan li {
+      margin: 8px 0;
+    }
+
+    #studentDraft {
+      min-height: 300px;
+      resize: vertical;
+      margin-top: 14px;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background:
+        linear-gradient(transparent 31px, #dbeafe 32px);
+      background-size: 100% 32px;
+      line-height: 32px;
+      padding: 8px 12px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+
+    .hidden-input {
+      display: none;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.55);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      width: min(700px, 100%);
+      max-height: 85vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+    }
+
+    .close-modal {
+      float: right;
+      background: #f1f5f9;
+      padding: 8px 12px;
+    }
+
+    .task-description {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .loading {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="logo">✏️ TextLab Editor</div>
+
+    <button onclick="newProject()">Новый проект</button>
+    <button onclick="document.getElementById('textFile').click()">Загрузить TXT</button>
+    <button onclick="document.getElementById('pdfFile').click()">Загрузить PDF</button>
+    <button onclick="saveProject()">💾 Сохранить проект</button>
+    <button onclick="document.getElementById('projectFile').click()">📂 Загрузить проект</button>
+
+    <div class="spacer"></div>
+
+    <button class="primary" onclick="exportHTML()">⬇ Скачать HTML для Genially</button>
+  </header>
+
+  <input id="textFile" class="hidden-input" type="file" accept=".txt,.md,.csv" />
+  <input id="pdfFile" class="hidden-input" type="file" accept=".pdf" />
+  <input id="projectFile" class="hidden-input" type="file" accept=".json" />
+
+  <main class="workspace">
+
+    <!-- ПАНЕЛЬ НАСТРОЕК -->
+    <aside class="sidebar">
+
+      <div class="section">
+        <h3>📝 Проект</h3>
+
+        <label>Название проекта</label>
+        <input type="text" id="projectTitle" value="Интерактивный текст" />
+
+        <label>Заголовок для ученика</label>
+        <input type="text" id="studentTitle" value="Работа с текстом" />
+
+        <label>Инструкция</label>
+        <textarea id="studentInstruction">Прочитайте текст и выполните задания.</textarea>
+      </div>
+
+      <div class="section">
+        <h3>🎨 Оформление текста</h3>
+
+        <label>Шрифт</label>
+        <select id="fontFamily">
+          <option value="Arial">Arial</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Tahoma">Tahoma</option>
+          <option value="Courier New">Courier New</option>
+        </select>
+
+        <label>Размер букв: <span id="fontSizeValue">20</span> px</label>
+        <input type="range" id="fontSize" min="12" max="48" value="20" />
+
+        <label>Цвет букв</label>
+        <input type="color" id="textColor" value="#172033" />
+      </div>
+
+      <div class="section">
+        <h3>🌍 Перевод текста</h3>
+
+        <label>Язык</label>
+        <select id="targetLanguage">
+          <option value="">Без перевода</option>
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+          <option value="it">Italiano</option>
+          <option value="zh">中文</option>
+        </select>
+
+        <label>API-ключ переводчика</label>
+        <input type="password" id="translateKey" placeholder="Необязательно" />
+
+        <button class="small-button" onclick="translateText()">
+          Перевести весь текст
+        </button>
+
+        <div class="hint">
+          Для реального автоматического перевода подключите свой API.
+          Если ключ не указан, редактор сохранит исходный текст.
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>⚙️ Действия</h3>
+
+        <button class="small-button" onclick="restoreOriginalText()">
+          ↩ Вернуть исходный текст
+        </button>
+
+        <button class="small-button danger-button" onclick="clearText()">
+          🗑 Очистить текст
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- РЕДАКТОР -->
+    <section class="editor-panel">
+      <div class="editor-title">
+        <h2>Редактор текста</h2>
+        <span id="editorStatus" class="status">Готово</span>
+      </div>
+
+      <textarea
+        id="sourceText"
+        placeholder="Вставьте сюда текст или загрузите TXT/PDF..."
+      ></textarea>
+    </section>
+
+    <!-- ПРЕДПРОСМОТР -->
+    <section class="preview-panel">
+      <div class="preview-title">
+        <h2>Предпросмотр ученика</h2>
+        <span class="status">⚡ Автообновление</span>
+      </div>
+
+      <div class="preview-frame">
+
+        <div class="student-header">
+          <h1 id="previewStudentTitle">Работа с текстом</h1>
+          <p id="previewInstruction">Прочитайте текст и выполните задания.</p>
+        </div>
+
+        <div class="student-toolbar">
+          <button onclick="toggleTaskMenu()">📚 Задания</button>
+          <button onclick="toggleAnalysis()">🔍 Анализ текста</button>
+        </div>
+
+        <div class="student-content">
+
+          <div id="previewText"></div>
+
+          <!-- ЗАДАНИЯ -->
+          <div class="task-box" id="taskBox">
+
+            <h3>Задания</h3>
+
+            <div class="task-menu">
+
+              <button onclick="toggleSubtasks('missingMenu')">
+                ✏️ Пропуск букв
+              </button>
+
+              <div class="subtasks" id="missingMenu">
+                <button onclick="createTask('vowels')">
+                  🔤 Пропуск гласных
+                </button>
+              </div>
+
+              <button onclick="toggleSubtasks('punctuationMenu')">
+                ❗ Пунктуация
+              </button>
+
+              <div class="subtasks" id="punctuationMenu">
+                <button onclick="createTask('punctuation')">
+                  ,.!?;: — Пропуск знаков препинания
+                </button>
+              </div>
+
+            </div>
+
+            <div id="generatedTask"></div>
+
+          </div>
+
+          <!-- АНАЛИЗ -->
+          <div class="analysis-box" id="analysisBox">
+
+            <h3>Комплексный план лингвистического анализа</h3>
+
+            <ol class="analysis-plan">
+              <li>
+                <strong>Смысловой (содержательный) уровень</strong>
+                <ul>
+                  <li>Тема текста: О чем этот текст?</li>
+                  <li>Основная мысль: Какую главную идею хотел донести автор?</li>
+                  <li>Микротемы: На какие смысловые части делится текст?</li>
+                  <li>Заглавие: Как название связано с темой или идеей текста?</li>
+                </ul>
+              </li>
+
+              <li>
+                <strong>Речеведческий уровень</strong>
+                <ul>
+                  <li>Стиль речи: художественный, публицистический, научный, разговорный или официально-деловой.</li>
+                  <li>Тип речи: повествование, описание, рассуждение или их сочетание.</li>
+                  <li>Способ связи предложений: цепная или параллельная.</li>
+                  <li>Средства связи: местоимения, повторы, союзы, синонимы.</li>
+                </ul>
+              </li>
+
+              <li>
+                <strong>Языковой уровень</strong>
+                <ul>
+                  <li>Лексика: ключевые слова, синонимы, антонимы, омонимы.</li>
+                  <li>Устаревшие слова и неологизмы.</li>
+                  <li>Пласты лексики: разговорная, книжная, профессиональная, диалектная.</li>
+                  <li>Фонетика: аллитерация и ассонанс.</li>
+                  <li>Морфология: части речи и их роль.</li>
+                  <li>Синтаксис: простые и сложные предложения.</li>
+                  <li>Пунктуация и выразительные конструкции.</li>
+                </ul>
+              </li>
+
+              <li>
+                <strong>Изобразительно-выразительные средства</strong>
+                <ul>
+                  <li>Метафоры, эпитеты, олицетворения, сравнения, гиперболы.</li>
+                  <li>Анафора, антитеза, инверсия, градация, параллелизм.</li>
+                </ul>
+              </li>
+
+              <li>
+                <strong>Итоги и выводы</strong>
+                <ul>
+                  <li>Как форма и языковые средства помогают раскрыть тему и позицию автора?</li>
+                </ul>
+              </li>
+            </ol>
+
+            <h3 style="margin-top:24px;">✏️ Черновик ученика</h3>
+
+            <textarea
+              id="studentDraft"
+              placeholder="Напишите здесь свой анализ текста..."
+            ></textarea>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // ============================================================
+    // СОСТОЯНИЕ ПРОЕКТА
+    // ============================================================
+
+    const state = {
+      originalText: "",
+      translatedText: "",
+      currentTask: null
+    };
+
+    const sourceText = document.getElementById("sourceText");
+    const previewText = document.getElementById("previewText");
+
+    // ============================================================
+    // АВТООБНОВЛЕНИЕ ПРЕДПРОСМОТРА БЕЗ МЕРЦАНИЯ
+    // ============================================================
+
+    let updateTimer = null;
+
+    function schedulePreviewUpdate() {
+      clearTimeout(updateTimer);
+
+      updateTimer = setTimeout(() => {
+        requestAnimationFrame(updatePreview);
+      }, 80);
+    }
+
+    function updatePreview() {
+      const text = sourceText.value;
+
+      // Обновляем только содержимое, не пересоздаем весь preview.
+      if (previewText.textContent !== text) {
+        previewText.textContent = text;
+      }
+
+      previewText.style.fontFamily =
+        document.getElementById("fontFamily").value;
+
+      previewText.style.fontSize =
+        document.getElementById("fontSize").value + "px";
+
+      previewText.style.color =
+        document.getElementById("textColor").value;
+
+      document.getElementById("previewStudentTitle").textContent =
+        document.getElementById("studentTitle").value || "Работа с текстом";
+
+      document.getElementById("previewInstruction").textContent =
+        document.getElementById("studentInstruction").value;
+
+      document.getElementById("fontSizeValue").textContent =
+        document.getElementById("fontSize").value;
+
+      document.getElementById("editorStatus").textContent =
+        "Обновлено";
+    }
+
+    // ============================================================
+    // СОБЫТИЯ РЕДАКТОРА
+    // ============================================================
+
+    sourceText.addEventListener("input", () => {
+      document.getElementById("editorStatus").textContent =
+        "Обновление...";
+      schedulePreviewUpdate();
+    });
+
+    [
+      "projectTitle",
+      "studentTitle",
+      "studentInstruction",
+      "fontFamily",
+      "fontSize",
+      "textColor"
+    ].forEach(id => {
+      document.getElementById(id).addEventListener("input", schedulePreviewUpdate);
+      document.getElementById(id).addEventListener("change", schedulePreviewUpdate);
+    });
+
+    // ============================================================
+    // ЗАГРУЗКА TXT
+    // ============================================================
+
+    document.getElementById("textFile").addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const text = await file.text();
+
+      state.originalText = text;
+      sourceText.value = text;
+
+      updatePreview();
+
+      event.target.value = "";
+    });
+
+    // ============================================================
+    // ЗАГРУЗКА PDF
+    // ============================================================
+
+    document.getElementById("pdfFile").addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      document.getElementById("editorStatus").textContent =
+        "Чтение PDF...";
+
+      try {
+        const buffer = await file.arrayBuffer();
+
+        const pdf = await pdfjsLib.getDocument({
+          data: buffer
+        }).promise;
+
+        let fullText = "";
+
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+          const page = await pdf.getPage(pageNumber);
+          const content = await page.getTextContent();
+
+          const pageText = content.items
+            .map(item => item.str)
+            .join(" ");
+
+          fullText += pageText + "\n\n";
+        }
+
+        state.originalText = fullText.trim();
+        sourceText.value = state.originalText;
+
+        updatePreview();
+
+        document.getElementById("editorStatus").textContent =
+          "PDF загружен";
+
+      } catch (error) {
+        console.error(error);
+        alert("Не удалось прочитать PDF.");
+      }
+
+      event.target.value = "";
+    });
+
+    // ============================================================
+    // НОВЫЙ ПРОЕКТ
+    // ============================================================
+
+    function newProject() {
+      if (!confirm("Создать новый проект? Несохраненные изменения будут удалены.")) {
+        return;
+      }
+
+      sourceText.value = "";
+      state.originalText = "";
+      state.translatedText = "";
+      state.currentTask = null;
+
+      document.getElementById("projectTitle").value =
+        "Интерактивный текст";
+
+      document.getElementById("studentTitle").value =
+        "Работа с текстом";
+
+      document.getElementById("studentInstruction").value =
+        "Прочитайте текст и выполните задания.";
+
+      document.getElementById("generatedTask").innerHTML = "";
+
+      updatePreview();
+    }
+
+    // ============================================================
+    // ОЧИСТКА И ВОССТАНОВЛЕНИЕ
+    // ============================================================
+
+    function clearText() {
+      sourceText.value = "";
+      updatePreview();
+    }
+
+    function restoreOriginalText() {
+      sourceText.value = state.originalText || "";
+      updatePreview();
+    }
+
+    // ============================================================
+    // МЕНЮ ЗАДАНИЙ
+    // ============================================================
+
+    function toggleTaskMenu() {
+      document.getElementById("taskBox").classList.toggle("active");
+    }
+
+    function toggleSubtasks(id) {
+      document.getElementById(id).classList.toggle("active");
+    }
+
+    // ============================================================
+    // СОЗДАНИЕ ЗАДАНИЯ
+    // ============================================================
+
+    function createTask(type) {
+      const text = sourceText.value;
+
+      if (!text.trim()) {
+        alert("Сначала добавьте текст.");
+        return;
+      }
+
+      state.currentTask = type;
+
+      const container = document.getElementById("generatedTask");
+      container.innerHTML = "";
+
+      const title = document.createElement("h3");
+
+      if (type === "vowels") {
+        title.textContent = "Вставьте пропущенные гласные";
+      } else {
+        title.textContent = "Вставьте пропущенные знаки препинания";
+      }
+
+      container.appendChild(title);
+
+      const taskText = document.createElement("div");
+      taskText.style.lineHeight = "2.2";
+      taskText.style.fontSize = previewText.style.fontSize || "20px";
+      taskText.style.fontFamily = previewText.style.fontFamily || "Arial";
+
+      const fragment = document.createDocumentFragment();
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+
+        const shouldHide =
+          type === "vowels"
+            ? /[аеёиоуыэюяАЕЁИОУЫЭЮЯ]/.test(char)
+            : /[,.!?;:—–-]/.test(char);
+
+        if (shouldHide) {
+          const input = document.createElement("input");
+
+          input.type = "text";
+          input.maxLength = 1;
+          input.className = "answer-input";
+          input.dataset.answer = char.toLowerCase();
+
+          input.addEventListener("input", function() {
+            if (this.value.length === 1) {
+              const next = this.nextElementSibling;
+
+              if (
+                next &&
+                next.classList.contains("answer-input")
+              ) {
+                next.focus();
+              }
+            }
+          });
+
+          fragment.appendChild(input);
+        } else {
+          const span = document.createElement("span");
+          span.textContent = char;
+          fragment.appendChild(span);
+        }
+      }
+
+      taskText.appendChild(fragment);
+      container.appendChild(taskText);
+
+      const checkButton = document.createElement("button");
+      checkButton.textContent = "Проверить";
+      checkButton.className = "check-button";
+      checkButton.onclick = checkAnswers;
+
+      container.appendChild(checkButton);
+
+      const result = document.createElement("div");
+      result.className = "task-result";
+      result.id = "taskResult";
+
+      container.appendChild(result);
+    }
+
+    // ============================================================
+    // ПРОВЕРКА ОТВЕТОВ
+    // ============================================================
+
+    function checkAnswers() {
+      const inputs = document.querySelectorAll("#generatedTask .answer-input");
+
+      let correct = 0;
+
+      inputs.forEach(input => {
+        const answer = (input.value || "").toLowerCase();
+
+        input.classList.remove("correct", "wrong");
+
+        if (answer === input.dataset.answer) {
+          input.classList.add("correct");
+          correct++;
+        } else {
+          input.classList.add("wrong");
+        }
+      });
+
+      const result = document.getElementById("taskResult");
+
+      result.textContent =
+        `Правильных ответов: ${correct} из ${inputs.length}`;
+
+      result.style.color =
+        correct === inputs.length
+          ? "#16a34a"
+          : "#dc2626";
+    }
+
+    // ============================================================
+    // АНАЛИЗ ТЕКСТА
+    // ============================================================
+
+    function toggleAnalysis() {
+      document.getElementById("analysisBox")
+        .classList.toggle("active");
+    }
+
+    // ============================================================
+    // СОХРАНЕНИЕ ПРОЕКТА JSON
+    // ============================================================
+
+    function saveProject() {
+      const project = {
+        version: 1,
+        projectTitle: document.getElementById("projectTitle").value,
+        studentTitle: document.getElementById("studentTitle").value,
+        studentInstruction: document.getElementById("studentInstruction").value,
+        text: sourceText.value,
+        originalText: state.originalText,
+        fontFamily: document.getElementById("fontFamily").value,
+        fontSize: document.getElementById("fontSize").value,
+        textColor: document.getElementById("textColor").value,
+        targetLanguage: document.getElementById("targetLanguage").value
+      };
+
+      const blob = new Blob(
+        [JSON.stringify(project, null, 2)],
+        { type: "application/json" }
+      );
+
+      downloadBlob(
+        blob,
+        sanitizeFileName(project.projectTitle || "project") + ".textlab.json"
+      );
+    }
+
+    // ============================================================
+    // ЗАГРУЗКА ПРОЕКТА JSON
+    // ============================================================
+
+    document.getElementById("projectFile").addEventListener("change", async event => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      try {
+        const data = JSON.parse(await file.text());
+
+        document.getElementById("projectTitle").value =
+          data.projectTitle || "";
+
+        document.getElementById("studentTitle").value =
+          data.studentTitle || "";
+
+        document.getElementById("studentInstruction").value =
+          data.studentInstruction || "";
+
+        sourceText.value =
+          data.text || "";
+
+        state.originalText =
+          data.originalText || data.text || "";
+
+        document.getElementById("fontFamily").value =
+          data.fontFamily || "Arial";
+
+        document.getElementById("fontSize").value =
+          data.fontSize || 20;
+
+        document.getElementById("textColor").value =
+          data.textColor || "#172033";
+
+        document.getElementById("targetLanguage").value =
+          data.targetLanguage || "";
+
+        updatePreview();
+
+      } catch (error) {
+        console.error(error);
+        alert("Не удалось загрузить проект.");
+      }
+
+      event.target.value = "";
+    });
+
+    // ============================================================
+    // ПЕРЕВОД
+    // ============================================================
+
+    async function translateText() {
+      const text = sourceText.value.trim();
+      const target = document.getElementById("targetLanguage").value;
+      const key = document.getElementById("translateKey").value.trim();
+
+      if (!text) {
+        alert("Нет текста для перевода.");
+        return;
+      }
+
+      if (!target) {
+        alert("Выберите язык перевода.");
+        return;
+      }
+
+      if (!state.originalText) {
+        state.originalText = text;
+      }
+
+      /*
+        Здесь подключается API переводчика.
+
+        Пример структуры для LibreTranslate:
+
+        const response = await fetch("https://libretranslate.com/translate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            q: text,
+            source: "auto",
+            target: target,
+            format: "text",
+            api_key: key
+          })
+        });
+
+        const data = await response.json();
+        sourceText.value = data.translatedText;
+
+        Для производственного проекта рекомендуется
+        использовать серверный API, а не хранить секретный ключ
+        непосредственно в HTML.
+      */
+
+      document.getElementById("editorStatus").textContent =
+        "Перевод...";
+
+      try {
+        // ДЕМО-РЕЖИМ:
+        // Если подключен собственный API, замените этот блок.
+
+        if (!key) {
+          alert(
+            "Для реального перевода подключите API переводчика и укажите ключ. " +
+            "Структура для подключения уже предусмотрена в функции translateText()."
+          );
+
+          document.getElementById("editorStatus").textContent =
+            "API-ключ не указан";
+
+          return;
+        }
+
+        // Место для вашего API-запроса:
+        alert(
+          "API-ключ указан. Подключите выбранный сервис перевода " +
+          "в функции translateText()."
+        );
+
+      } catch (error) {
+        console.error(error);
+        alert("Ошибка перевода.");
+      }
+
+      updatePreview();
+    }
+
+    // ============================================================
+    // ЭКСПОРТ ГОТОВОГО HTML
+    // ============================================================
+
+    function exportHTML() {
+      const data = {
+        title: document.getElementById("studentTitle").value,
+        instruction: document.getElementById("studentInstruction").value,
+        text: sourceText.value,
+        fontFamily: document.getElementById("fontFamily").value,
+        fontSize: document.getElementById("fontSize").value,
+        textColor: document.getElementById("textColor").value
+      };
+
+      const exportedHTML = buildStudentHTML(data);
+
+      const blob = new Blob(
+        [exportedHTML],
+        { type: "text/html;charset=utf-8" }
+      );
+
+      downloadBlob(
+        blob,
+        sanitizeFileName(
+          document.getElementById("projectTitle").value || "interactive-text"
+        ) + ".html"
+      );
+    }
+
+    // ============================================================
+    // ШАБЛОН ГОТОВОЙ ИГРЫ
+    // ============================================================
+
+    function buildStudentHTML(data) {
+      const safeData = JSON.stringify(data).replace(/</g, "\\u003c");
+
+      return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHTML(data.title)}</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2ff;
+  color: #172033;
+}
+
+.app {
+  max-width: 1000px;
+  margin: 30px auto;
+  background: white;
+  min-height: 600px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 50px rgba(15,23,42,.15);
+}
+
+header {
+  padding: 30px;
+  background: linear-gradient(135deg,#4f46e5,#7c3aed);
+  color: white;
+}
+
+header h1 { margin: 0 0 8px; }
+header p { margin: 0; opacity: .9; }
+
+.toolbar {
+  padding: 15px 25px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 700;
+}
+
+.content {
+  padding: 30px;
+}
+
+.text {
+  white-space: pre-wrap;
+  line-height: 1.8;
+}
+
+.panel {
+  display: none;
+  margin-top: 25px;
+  padding: 20px;
+  background: #f8faff;
+  border: 1px solid #dbe1f0;
+  border-radius: 14px;
+}
+
+.panel.active { display: block; }
+
+.subtasks {
+  display: none;
+  margin: 10px 0;
+}
+
+.subtasks.active {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.answer-input {
+  width: 30px;
+  height: 34px;
+  margin: 1px;
+  text-align: center;
+  border: 2px solid #94a3b8;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.correct {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.wrong {
+  background: #fee2e2;
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.check {
+  margin-top: 18px;
+  background: #4f46e5;
+  color: white;
+}
+
+#draft {
+  width: 100%;
+  min-height: 350px;
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  line-height: 32px;
+  resize: vertical;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <h1 id="title"></h1>
+  <p id="instruction"></p>
+</header>
+
+<div class="toolbar">
+  <button onclick="toggleTasks()">📚 Задания</button>
+  <button onclick="toggleAnalysis()">🔍 Анализ текста</button>
+</div>
+
+<div class="content">
+
+  <div id="text" class="text"></div>
+
+  <div id="tasks" class="panel">
+    <h2>Задания</h2>
+
+    <button onclick="toggleSub('letters')">Пропуск букв</button>
+
+    <div id="letters" class="subtasks">
+      <button onclick="makeTask('vowels')">Пропуск гласных</button>
+    </div>
+
+    <button onclick="toggleSub('punctuation')">Пунктуация</button>
+
+    <div id="punctuation" class="subtasks">
+      <button onclick="makeTask('punctuation')">
+        Пропуск знаков препинания
+      </button>
+    </div>
+
+    <div id="task"></div>
+  </div>
+
+  <div id="analysis" class="panel">
+    <h2>Комплексный план лингвистического анализа</h2>
+
+    <ol>
+      <li>
+        <strong>Смысловой уровень</strong>
+        <ul>
+          <li>Тема текста</li>
+          <li>Основная мысль</li>
+          <li>Микротемы</li>
+          <li>Связь заглавия с текстом</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Речеведческий уровень</strong>
+        <ul>
+          <li>Стиль речи</li>
+          <li>Тип речи</li>
+          <li>Способ связи предложений</li>
+          <li>Средства связи</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Языковой уровень</strong>
+        <ul>
+          <li>Лексика</li>
+          <li>Фонетика и графика</li>
+          <li>Морфология</li>
+          <li>Синтаксис и пунктуация</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Изобразительно-выразительные средства</strong>
+        <ul>
+          <li>Метафоры</li>
+          <li>Эпитеты</li>
+          <li>Олицетворения</li>
+          <li>Сравнения</li>
+          <li>Гиперболы</li>
+          <li>Анафора, антитеза, инверсия, градация, параллелизм</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Итоги и выводы</strong>
+        <ul>
+          <li>
+            Как языковые средства помогают раскрыть тему
+            и выразить позицию автора?
+          </li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2>✏️ Черновик</h2>
+
+    <textarea
+      id="draft"
+      placeholder="Напишите здесь свой анализ текста..."
+    ></textarea>
+  </div>
+
+</div>
+</div>
+
+<script>
+const project = ${safeData};
+
+const textEl = document.getElementById("text");
+
+document.getElementById("title").textContent = project.title;
+document.getElementById("instruction").textContent = project.instruction;
+textEl.textContent = project.text;
+
+textEl.style.fontFamily = project.fontFamily;
+textEl.style.fontSize = project.fontSize + "px";
+textEl.style.color = project.textColor;
+
+function toggleTasks() {
+  document.getElementById("tasks").classList.toggle("active");
+}
+
+function toggleAnalysis() {
+  document.getElementById("analysis").classList.toggle("active");
+}
+
+function toggleSub(id) {
+  document.getElementById(id).classList.toggle("active");
+}
+
+function makeTask(type) {
+  const text = project.text;
+  const container = document.getElementById("task");
+
+  container.innerHTML = "";
+
+  const heading = document.createElement("h3");
+  heading.textContent =
+    type === "vowels"
+      ? "Вставьте пропущенные гласные"
+      : "Вставьте пропущенные знаки препинания";
+
+  container.appendChild(heading);
+
+  const taskText = document.createElement("div");
+  taskText.style.lineHeight = "2.2";
+  taskText.style.fontSize = project.fontSize + "px";
+  taskText.style.fontFamily = project.fontFamily;
+
+  for (const char of text) {
+    const hide =
+      type === "vowels"
+        ? /[аеёиоуыэюяАЕЁИОУЫЭЮЯ]/.test(char)
+        : /[,.!?;:—–-]/.test(char);
+
+    if (hide) {
+      const input = document.createElement("input");
+
+      input.type = "text";
+      input.maxLength = 1;
+      input.className = "answer-input";
+      input.dataset.answer = char.toLowerCase();
+
+      taskText.appendChild(input);
+    } else {
+      const span = document.createElement("span");
+      span.textContent = char;
+      taskText.appendChild(span);
+    }
+  }
+
+  container.appendChild(taskText);
+
+  const button = document.createElement("button");
+  button.textContent = "Проверить";
+  button.className = "check";
+  button.onclick = checkTask;
+
+  container.appendChild(button);
+
+  const result = document.createElement("p");
+  result.id = "result";
+
+  container.appendChild(result);
+}
+
+function checkTask() {
+  const inputs = document.querySelectorAll(".answer-input");
+
+  let correct = 0;
+
+  inputs.forEach(input => {
+    input.classList.remove("correct", "wrong");
+
+    if (
+      input.value.toLowerCase() === input.dataset.answer
+    ) {
+      input.classList.add("correct");
+      correct++;
+    } else {
+      input.classList.add("wrong");
+    }
+  });
+
+  document.getElementById("result").textContent =
+    "Правильных ответов: " +
+    correct +
+    " из " +
+    inputs.length;
+}
+<\/script>
+
+</body>
+</html>`;
+    }
+
+    // ============================================================
+    // СКАЧИВАНИЕ
+    // ============================================================
+
+    function downloadBlob(blob, fileName) {
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function sanitizeFileName(name) {
+      return name
+        .replace(/[<>:"/\\\\|?*]+/g, "_")
+        .trim()
+        .slice(0, 80) || "project";
+    }
+
+    function escapeHTML(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    // ============================================================
+    // СТАРТ
+    // ============================================================
+
+    updatePreview();
+
+  </script>
+</body>
+</html>
