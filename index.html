@@ -1,1014 +1,170 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Редактор текста для Genially</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Лесные истории — редактор интерактивных заданий</title>
+<style id="game-css">
+*{box-sizing:border-box}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:default;opacity:.45}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid #d69a58;outline-offset:3px}.game{--ink:#3e352c;--paper:#f2e6cd;--accent:#9a593a;--tile:#f8eedb;--font:Georgia,serif;--size:25px;--leading:1.85;--radius:14px;position:relative;isolation:isolate;min-height:480px;aspect-ratio:16/9;background:#182d2d;color:var(--ink);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;padding:28px 36px;gap:16px;font-family:var(--font);box-shadow:0 16px 50px #101d2425}.landscape{position:absolute;inset:0;z-index:-2;background:radial-gradient(ellipse at 76% 20%,#c8884b2e,transparent 32%),radial-gradient(ellipse at 30% 10%,#67818a50,transparent 45%),linear-gradient(145deg,#172d31,#142324 60%,#33412b);background-size:cover;background-position:center}.forest-art{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.75}.hud{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;color:#ead7b2;font:13px system-ui,sans-serif}.hud .game-title{overflow-wrap:anywhere;min-width:0;font-family:Georgia,serif;font-size:20px;letter-spacing:.04em;color:#f3d09b}.hud .counters{display:flex;flex-wrap:wrap;gap:14px}.game .paper{position:relative;background:var(--paper);color:var(--ink);border:1px solid #c5a36b66;border-radius:var(--radius);box-shadow:0 8px 30px #0003,inset 0 0 60px #a8782920;padding:25px 30px;flex:1;min-height:130px;max-height:470px;overflow:auto}.paper:before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.15;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%239b774e' filter='url(%23n)' opacity='.5' d='M0 0h150v150H0z'/%3E%3C/svg%3E")}.instruction{font:12px system-ui,sans-serif;color:var(--accent);margin:0 0 14px;letter-spacing:.03em}.reading{position:relative;font-size:var(--size);line-height:var(--leading);white-space:pre-wrap;overflow-wrap:anywhere}.word{display:inline-block;white-space:nowrap}.character{cursor:pointer;border-radius:2px}.character:hover{background:#b8854540}.gap{display:inline-flex;align-items:center;justify-content:center;min-width:1.05em;height:1.55em;min-height:44px;vertical-align:baseline;border:0;border-bottom:2px solid var(--accent);background:#9a593a12;color:var(--accent);font:inherit;padding:0 3px;border-radius:4px;margin:0 1px}.gap.correct{border-color:#397354;color:#275a3e;background:#39735413}.token{border:0;background:transparent;padding:0 2px;margin:0;font:inherit;color:inherit;line-height:inherit;cursor:pointer;border-radius:3px}.token:hover{background:#bc8c5030}.role-subject{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}.role-predicate{text-decoration:underline double;text-underline-offset:6px}.role-attribute{text-decoration:underline wavy;text-underline-offset:6px}.role-object{text-decoration:underline dashed;text-underline-offset:6px}.role-adverbial{border-bottom:2px dashed currentColor}.answer{color:#48734e}.bank{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;max-height:150px;overflow:auto;padding:5px}.tile,.game-button{border:1px solid #b4915d;background:var(--tile);color:var(--ink);border-radius:8px;min-width:44px;min-height:44px;box-shadow:0 3px 0 #8b603b80;padding:8px 13px;font:18px var(--font);transition:transform .15s,background .15s}.tile{touch-action:none}.tile:hover,.game-button:hover{transform:translateY(-2px)}.tile.selected{background:#d7af72;outline:2px solid #f6dbac;outline-offset:2px}.game-button{font:13px system-ui,sans-serif}.game-status{text-align:center;min-height:18px;color:#ead7b2;font:12px system-ui,sans-serif}.game-status.error{color:#ffd6c9;animation:shake .25s}.end-overlay{position:absolute;inset:0;z-index:20;background:#102124dc;display:grid;place-items:center;padding:20px}.end-card{background:var(--paper);border:1px solid #b4915d;border-radius:18px;text-align:center;padding:32px;max-width:480px;width:100%;box-shadow:0 20px 80px #0005}.end-card h2{font:32px Georgia,serif;margin:12px 0}.end-card p{font:15px system-ui,sans-serif;line-height:1.6}.end-card img{max-width:180px;max-height:130px;border-radius:12px}.end-symbol{font-size:44px;color:var(--accent)}.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.draft-tools{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}.draft-tools button,.draft-tools input{min-width:36px;min-height:36px;border:1px solid #b4915d80;border-radius:5px;background:var(--tile);color:var(--ink);font:12px system-ui;padding:4px}.draft-tools .active{background:#d7af72}.drawing{width:100%;aspect-ratio:4/3;background:repeating-linear-gradient(transparent,transparent 28px,#9a593a20 29px,#9a593a20 30px);border:1px solid #ad8a5950;touch-action:none;border-radius:8px;display:block}.draft-note{width:100%;min-height:65px;border:1px solid #ad8a5950;background:#fff5;border-radius:7px;padding:10px;color:var(--ink);margin-top:8px;font:14px system-ui,sans-serif}.analysis-instruction{font:13px system-ui;line-height:1.6;margin-bottom:14px;white-space:pre-wrap}.draft-shell{overflow:auto;max-height:430px}.drawing-viewport{overflow:auto;max-height:300px}.drag-ghost{position:fixed;pointer-events:none;z-index:9999;opacity:.85;transform:translate(-50%,-50%)}@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}@media(max-width:650px){.game{padding:18px 14px;min-height:520px;aspect-ratio:auto;gap:12px}.game .paper{padding:20px 16px;max-height:60vh}.hud{align-items:flex-start}.hud .game-title{font-size:17px}.hud .counters{gap:8px;font-size:11px}.reading{font-size:clamp(18px,var(--size),25px)}.analysis-grid{grid-template-columns:1fr}.bank{max-height:170px}.end-card{padding:24px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 <style>
-  /* ── Token system ── */
-  :root {
-    --bg:        oklch(97% 0.005 250);
-    --surface:   oklch(100% 0 0);
-    --raised:    oklch(95% 0.008 250);
-    --border:    oklch(88% 0.010 250);
-    --muted:     oklch(62% 0.020 250);
-    --body:      oklch(18% 0.015 250);
-    --accent:    oklch(56% 0.18 260);
-    --accent-lt: oklch(93% 0.04  260);
-    --accent-dk: oklch(42% 0.18  260);
-    --success:   oklch(55% 0.15  145);
-    --danger:    oklch(55% 0.18   25);
-    --warning:   oklch(70% 0.16   85);
-    --shadow-sm: 0 1px 3px oklch(0% 0 0 / .08), 0 0 0 1px var(--border);
-    --shadow-md: 0 4px 12px oklch(0% 0 0 / .10), 0 0 0 1px var(--border);
-    --r-sm: 6px;
-    --r-md: 10px;
-    --r-lg: 14px;
-    --sp: 4px;
-  }
-  [data-theme="dark"] {
-    --bg:        oklch(14% 0.010 250);
-    --surface:   oklch(18% 0.012 250);
-    --raised:    oklch(22% 0.014 250);
-    --border:    oklch(30% 0.018 250);
-    --muted:     oklch(58% 0.018 250);
-    --body:      oklch(92% 0.008 250);
-    --accent:    oklch(68% 0.16  260);
-    --accent-lt: oklch(26% 0.06  260);
-    --accent-dk: oklch(80% 0.14  260);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: system-ui, -apple-system, sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--body);
-    background: var(--bg);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  /* ── Top bar ── */
-  #topbar {
-    display: flex;
-    align-items: center;
-    gap: calc(var(--sp)*2);
-    padding: calc(var(--sp)*2) calc(var(--sp)*3);
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-    flex-shrink: 0;
-  }
-  #topbar h1 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--accent);
-    margin-right: calc(var(--sp)*2);
-    white-space: nowrap;
-  }
-  .tb-group {
-    display: flex;
-    align-items: center;
-    gap: var(--sp);
-    flex-wrap: wrap;
-  }
-  .tb-sep { width: 1px; height: 24px; background: var(--border); margin: 0 calc(var(--sp)*1); }
-
-  /* ── Buttons ── */
-  button {
-    cursor: pointer;
-    border: none;
-    border-radius: var(--r-sm);
-    font-size: 13px;
-    font-family: inherit;
-    transition: background 140ms, color 140ms, box-shadow 140ms;
-    line-height: 1;
-  }
-  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  button:disabled { opacity: .45; cursor: not-allowed; }
-
-  .btn-icon {
-    padding: 6px;
-    background: transparent;
-    color: var(--body);
-    border: 1px solid transparent;
-    min-width: 30px;
-    min-height: 30px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .btn-icon:hover:not(:disabled) { background: var(--raised); border-color: var(--border); }
-  .btn-icon.active { background: var(--accent-lt); color: var(--accent); border-color: var(--accent); }
-
-  .btn-primary {
-    padding: 6px 14px;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 500;
-  }
-  .btn-primary:hover:not(:disabled) { background: var(--accent-dk); }
-
-  .btn-secondary {
-    padding: 6px 12px;
-    background: var(--raised);
-    color: var(--body);
-    border: 1px solid var(--border);
-    font-weight: 500;
-  }
-  .btn-secondary:hover:not(:disabled) { background: var(--border); }
-
-  /* ── Selects & inputs ── */
-  select, input[type="color"], input[type="number"] {
-    border: 1px solid var(--border);
-    border-radius: var(--r-sm);
-    background: var(--surface);
-    color: var(--body);
-    font-family: inherit;
-    font-size: 13px;
-    padding: 4px 6px;
-    height: 30px;
-  }
-  select:focus, input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-  input[type="color"] { padding: 2px; width: 30px; cursor: pointer; }
-  input[type="number"] { width: 58px; }
-  label { font-size: 12px; color: var(--muted); white-space: nowrap; }
-
-  /* ── Main layout ── */
-  #main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    flex: 1;
-    overflow: hidden;
-  }
-  #editor-pane, #preview-pane {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  #editor-pane { border-right: 1px solid var(--border); }
-  .pane-header {
-    padding: calc(var(--sp)*2) calc(var(--sp)*3);
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    color: var(--muted);
-    background: var(--raised);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-  }
-
-  /* ── Editor ── */
-  #editor {
-    flex: 1;
-    padding: calc(var(--sp)*5);
-    resize: none;
-    border: none;
-    outline: none;
-    font-family: inherit;
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--body);
-    background: var(--surface);
-    overflow-y: auto;
-  }
-
-  /* ── Preview ── */
-  #preview {
-    flex: 1;
-    overflow-y: auto;
-    background: var(--surface);
-    padding: calc(var(--sp)*5);
-  }
-  #preview-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    /* font/color applied dynamically */
-  }
-
-  /* ── Task overlay container ── */
-  #task-bar {
-    padding: calc(var(--sp)*2) calc(var(--sp)*3);
-    background: var(--raised);
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: calc(var(--sp)*2);
-    flex-shrink: 0;
-    flex-wrap: wrap;
-  }
-  .task-label { font-size: 12px; font-weight: 600; color: var(--muted); }
-
-  /* ── Dropdown menus ── */
-  .dropdown { position: relative; display: inline-flex; }
-  .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    min-width: 200px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r-md);
-    box-shadow: var(--shadow-md);
-    z-index: 100;
-    overflow: hidden;
-  }
-  .dropdown-menu.open { display: block; }
-  .dropdown-item {
-    width: 100%;
-    text-align: left;
-    padding: 9px 14px;
-    background: none;
-    border: none;
-    border-radius: 0;
-    color: var(--body);
-    font-size: 13px;
-    display: block;
-  }
-  .dropdown-item:hover { background: var(--raised); }
-  .dropdown-section {
-    padding: 6px 14px 4px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .05em;
-  }
-  .dropdown-divider { height: 1px; background: var(--border); margin: 4px 0; }
-
-  /* ── Preview text tokens ── */
-  .gap-box {
-    display: inline-block;
-    width: 1.6em;
-    height: 1.1em;
-    background: var(--raised);
-    border: 1.5px solid var(--border);
-    border-radius: 3px;
-    vertical-align: middle;
-    position: relative;
-    cursor: text;
-  }
-  .gap-box.correct   { border-color: var(--success); background: oklch(96% 0.06 145); }
-  .gap-box.incorrect { border-color: var(--danger);  background: oklch(96% 0.06  25); }
-  .gap-box input {
-    position: absolute;
-    inset: 0;
-    border: none;
-    background: transparent;
-    font-family: inherit;
-    font-size: inherit;
-    text-align: center;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    outline: none;
-    color: var(--body);
-  }
-
-  /* ── Analysis modal ── */
-  #modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: oklch(0% 0 0 / .45);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    padding: calc(var(--sp)*4);
-  }
-  #modal-overlay.open { display: flex; }
-  #modal {
-    background: var(--surface);
-    border-radius: var(--r-lg);
-    box-shadow: var(--shadow-md);
-    width: 100%;
-    max-width: 700px;
-    max-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  #modal-header {
-    padding: calc(var(--sp)*4) calc(var(--sp)*5);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  #modal-header h2 { font-size: 16px; }
-  #modal-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: calc(var(--sp)*4) calc(var(--sp)*5);
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--sp)*4);
-  }
-  #analysis-draft {
-    width: 100%;
-    min-height: 160px;
-    border: 1px solid var(--border);
-    border-radius: var(--r-md);
-    padding: calc(var(--sp)*3);
-    font-family: inherit;
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--body);
-    background: var(--raised);
-    resize: vertical;
-  }
-  .analysis-plan {
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--muted);
-    border-left: 3px solid var(--accent);
-    padding-left: calc(var(--sp)*3);
-  }
-  .analysis-plan strong { color: var(--body); }
-
-  /* ── Check button ── */
-  #check-btn {
-    display: none;
-    margin-left: auto;
-  }
-
-  /* ── Code output ── */
-  #code-output {
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    border-top: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  #code-output.open { display: flex; }
-  #code-output-header {
-    padding: calc(var(--sp)*2) calc(var(--sp)*3);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--raised);
-    border-bottom: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .05em;
-  }
-  #code-area {
-    height: 140px;
-    overflow-y: auto;
-    padding: calc(var(--sp)*3);
-    font-family: "SFMono-Regular", Consolas, monospace;
-    font-size: 12px;
-    line-height: 1.6;
-    white-space: pre;
-    background: oklch(14% 0.012 250);
-    color: oklch(88% 0.015 250);
-  }
-
-  /* ── Toast ── */
-  #toast {
-    position: fixed;
-    bottom: calc(var(--sp)*5);
-    left: 50%;
-    transform: translateX(-50%) translateY(8px);
-    background: var(--body);
-    color: var(--surface);
-    padding: 8px 18px;
-    border-radius: var(--r-md);
-    font-size: 13px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 200ms, transform 200ms;
-    z-index: 999;
-    white-space: nowrap;
-  }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* ── Scrollbars ── */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
-
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0ms !important; } }
+:root{--ui-ink:#293d38;--ui-muted:#768075;--ui-paper:#faf6ed;--ui-line:#ded5c3;--ui-accent:#96603f;--ui-green:#244e42}body{margin:0;background:#f0ebdf;color:var(--ui-ink);font:13px/1.5 system-ui,-apple-system,sans-serif}button{font:inherit}button,input,textarea,select{border-radius:7px}button{border:1px solid var(--ui-line);background:#fffcf5;color:var(--ui-ink);padding:9px 13px;min-height:38px;transition:background .15s}button:hover{background:#e9e0ce}button.primary{background:var(--ui-green);border-color:var(--ui-green);color:#f9edcc}button.primary:hover{background:#356350}button.gold{background:#b37a46;color:white;border-color:#b37a46}input,select,textarea{border:1px solid var(--ui-line);background:#fffcf7;color:var(--ui-ink);padding:9px;width:100%;min-height:38px}input[type=checkbox]{width:17px;min-height:17px;accent-color:var(--ui-green)}input[type=color]{padding:3px;cursor:pointer}textarea{resize:vertical;line-height:1.65}label{display:block;margin:14px 0 5px;font-size:12px;color:#59685d}label.inline{display:flex;align-items:center;gap:8px}header{height:82px;padding:14px 25px;background:#fcf8ef;border-bottom:1px solid var(--ui-line);display:flex;align-items:center;justify-content:space-between;gap:18px;position:sticky;top:0;z-index:40}.brand{display:flex;align-items:center;gap:12px;min-width:230px}.brand-mark{width:44px;height:46px;display:grid;place-items:center;background:#24483b;color:#ebc18a;border-radius:14px 14px 7px 7px;font:30px Georgia}.brand h1{font:22px Georgia,serif;letter-spacing:.02em;margin:0}.brand p{margin:3px 0 0;color:var(--ui-muted);font-size:10px;letter-spacing:.13em;text-transform:uppercase}.top-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.top-actions button{font-size:11px;padding:9px 11px}.workspace{display:grid;grid-template-columns:210px 300px minmax(0,1fr);min-height:calc(100vh - 120px)}nav{padding:26px 14px;background:#e9e4d6;border-right:1px solid var(--ui-line)}.nav-title{font-size:10px;letter-spacing:.18em;color:#8b8a75;margin:0 12px 17px}.nav-item{width:100%;display:flex;align-items:center;gap:11px;border:none;background:transparent;text-align:left;padding:12px 11px;margin:2px 0;font-size:12px}.nav-item.active{background:#24483b;color:#f2deb8;box-shadow:0 5px 13px #24483b14}.nav-icon{font:18px Georgia;display:inline-block;min-width:24px;text-align:center}.nav-divider{height:1px;background:var(--ui-line);margin:17px 10px}.nav-note{margin:28px 12px;font:italic 13px/1.8 Georgia;color:#777961}.settings{padding:25px 22px;background:#faf6ed;border-right:1px solid var(--ui-line);max-height:calc(100vh - 120px);overflow:auto;position:sticky;top:82px;align-self:start}.eyebrow{color:#987248;text-transform:uppercase;font-size:10px;letter-spacing:.15em;margin:0 0 6px}.settings h2{font:24px Georgia;margin:0 0 8px}.settings p{font-size:12px;color:#7a806f;line-height:1.7}.settings h3{font-size:12px;margin:25px 0 10px;border-top:1px solid var(--ui-line);padding-top:18px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wide{width:100%;margin-top:9px}.hint{padding:12px;background:#ede8d9;border:1px solid #d8ceb8;border-radius:8px;color:#73765c;font-size:11px;line-height:1.65;margin-top:16px}.segmented{display:flex;gap:5px;flex-wrap:wrap}.segmented button{padding:7px 9px;font-size:11px}.segmented button.active{background:#e6d5b6;border-color:#b59462}.preview-area{padding:28px 30px;min-width:0}.work-heading{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:24px}.work-heading h2{font:29px Georgia;margin:0 0 7px}.work-heading p{margin:0;font-size:12px;color:var(--ui-muted)}.saved{color:#557457;font-size:11px;margin-top:6px;white-space:nowrap}.preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:15px}.preview-tools{display:flex;gap:7px}.preview-tools button{font-size:11px}.mode-badge{font-size:10px;letter-spacing:.08em;color:#746951;background:#e4ddcd;border:1px solid #d5c8b0;padding:6px 10px;border-radius:5px}.stage-wrap{border:1px solid #cfbea3;padding:8px;background:#e4dbc7;border-radius:24px;box-shadow:0 8px 28px #483f2510}.preview-caption{display:flex;justify-content:space-between;align-items:center;padding:15px 4px;color:#838473;font-size:11px}.preview-caption strong{color:#766548;font-weight:500}.below-stage{margin-top:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.tip-card{background:#faf6ed;border:1px solid var(--ui-line);padding:18px 16px;border-radius:10px}.tip-card .number{font:21px Georgia;color:#af8950;display:block;margin-bottom:7px}.tip-card b{font-size:12px;font-weight:500}.tip-card p{color:#888879;font-size:11px;line-height:1.6;margin:6px 0 0}footer{text-align:center;font-size:10px;color:#8b8879;border-top:1px solid var(--ui-line);padding:12px;background:#eee8d9}.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#24483b;color:#f9edcc;padding:13px 20px;border-radius:9px;box-shadow:0 8px 30px #0003;z-index:100;max-width:calc(100vw - 30px);font-size:13px}.toast:empty{display:none}dialog{background:#faf6ed;color:var(--ui-ink);border:1px solid #c9b799;border-radius:16px;max-width:660px;width:calc(100% - 32px);padding:25px;box-shadow:0 25px 100px #0005}dialog::backdrop{background:#172f2ba8}dialog h2{font:25px Georgia;margin:0 0 10px}.dialog-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}.code-box{font:11px/1.5 monospace;width:100%;height:230px}.file-zone{display:block;border:1px dashed #b9a481;border-radius:10px;padding:22px 10px;text-align:center;color:#79795f;background:#f1eadb;cursor:pointer;margin-top:18px}.file-zone strong{display:block;color:#435e4d;font-size:12px}.file-zone small{display:block;margin-top:5px}.pdf-page{display:flex;align-items:center;gap:8px;margin:8px 0}.pdf-page input{width:18px}.text-count{display:block;color:#948d7a;text-align:right;font-size:10px;margin-top:5px}.role-chooser{display:grid;gap:6px}.role-chooser button{text-align:left}.role-chooser button.active{background:#e4d1ad;border-color:#aa8550}.swatch-presets{display:grid;grid-template-columns:1fr 1fr;gap:8px}.swatch-presets button{text-align:left;padding:12px;font-size:11px}.swatch-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;background:var(--dot)}.modal-close{float:right}.empty-warning{margin:10px 0;color:#8b513b;font-size:12px}.selection-controls{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.selection-controls button{font-size:11px}.range-count{font-size:11px;color:#8e7856;display:block;margin-top:8px}.mobile-nav{display:none}details summary{cursor:pointer;color:#69785e;font-size:12px;margin-top:16px}body.view-only nav,body.view-only .settings,body.view-only .below-stage{display:none}body.view-only .workspace{display:block}body.view-only .preview-area{max-width:1250px;margin:auto}.file-info{font-size:11px;color:#777f69}.mode-switch-hint{font-size:11px;line-height:1.6;color:#91774c}.test-frame{width:100%;border:0;min-height:620px;border-radius:18px}.font-preview{font-size:20px;padding:13px 0;color:#6b5c43}.limit{color:#a33c2c}@media(min-width:1600px){.preview-area{padding:35px 45px}.workspace{grid-template-columns:220px 320px minmax(0,1fr)}}@media(max-width:1270px){header{height:auto;min-height:82px}.workspace{grid-template-columns:170px 270px minmax(0,1fr)}.preview-area{padding:25px 18px}.top-actions{justify-content:flex-end}.brand h1{font-size:20px}.brand{min-width:210px}.work-heading h2{font-size:25px}.preview-toolbar{flex-wrap:wrap}.below-stage{grid-template-columns:1fr}.tip-card{padding:12px}.tip-card .number{display:inline;margin-right:10px}.tip-card p{margin:4px 0}.game{padding:20px;min-height:480px}.reading{font-size:22px}.settings{padding:24px 18px}}@media(max-width:1000px){.workspace{grid-template-columns:240px minmax(0,1fr)}nav{grid-column:1/-1;display:flex;gap:5px;flex-wrap:wrap;padding:10px;position:static}.nav-item{width:auto;margin:0;padding:8px 10px}.nav-title,.nav-divider,.nav-note{display:none}.settings{max-height:none;position:static}.brand p{font-size:9px}.below-stage{grid-template-columns:1fr 1fr 1fr}.tip-card .number{display:block}.game{min-height:440px}.top-actions button{font-size:10px}.work-heading{flex-wrap:wrap}}@media(max-width:700px){header{padding:14px;align-items:flex-start;flex-direction:column}.top-actions{justify-content:flex-start}.workspace{display:block}.settings{max-height:400px;border-bottom:1px solid var(--ui-line)}.preview-area{padding:22px 12px}.below-stage{grid-template-columns:1fr}.tip-card .number{display:inline}.work-heading h2{font-size:26px}.game{min-height:520px;padding:18px 14px}.saved{display:none}.nav-item{font-size:11px}.nav-icon{font-size:14px;min-width:15px}.brand{min-width:0}} 
 </style>
 </head>
-<body data-theme="light">
-
-<!-- ═══════════════════════ TOP BAR ═══════════════════════ -->
-<div id="topbar">
-  <h1>📝 TextEditor → Genially</h1>
-
-  <div class="tb-group">
-    <button class="btn-secondary" id="btn-save" title="Сохранить проект (Ctrl+S)">💾 Сохранить</button>
-    <button class="btn-secondary" id="btn-load" title="Загрузить проект">📂 Загрузить</button>
-    <input type="file" id="file-input" style="display:none" accept=".gtproj,.txt,.pdf" />
-    <button class="btn-secondary" id="btn-export-html" title="Скачать HTML">⬇ HTML</button>
-  </div>
-
-  <div class="tb-sep"></div>
-
-  <!-- Font family -->
-  <div class="tb-group">
-    <label for="font-select">Шрифт</label>
-    <select id="font-select">
-      <option value="system-ui, sans-serif">Системный</option>
-      <option value="Georgia, serif">Georgia</option>
-      <option value="'Times New Roman', serif">Times New Roman</option>
-      <option value="'Courier New', monospace">Courier New</option>
-      <option value="Arial, sans-serif">Arial</option>
-      <option value="Verdana, sans-serif">Verdana</option>
-    </select>
-  </div>
-
-  <!-- Font size -->
-  <div class="tb-group">
-    <label for="font-size">Размер</label>
-    <input type="number" id="font-size" value="16" min="8" max="72" step="1" />
-  </div>
-
-  <!-- Color -->
-  <div class="tb-group">
-    <label for="font-color">Цвет</label>
-    <input type="color" id="font-color" value="#1a1a2e" title="Цвет текста" />
-  </div>
-
-  <div class="tb-sep"></div>
-
-  <!-- Language / translate -->
-  <div class="tb-group">
-    <label for="lang-select">Язык вывода</label>
-    <select id="lang-select">
-      <option value="none">— без перевода —</option>
-      <option value="ru">Русский</option>
-      <option value="uk">Украинский</option>
-      <option value="en">English</option>
-      <option value="de">Deutsch</option>
-      <option value="fr">Français</option>
-      <option value="es">Español</option>
-      <option value="zh">中文</option>
-    </select>
-    <button class="btn-secondary" id="btn-translate">↻ Перевести</button>
-  </div>
-
-  <div class="tb-sep"></div>
-
-  <!-- Dark mode -->
-  <div class="tb-group">
-    <button class="btn-icon" id="btn-theme" title="Сменить тему">🌓</button>
-  </div>
-
-  <!-- Genially code -->
-  <div class="tb-group">
-    <button class="btn-primary" id="btn-genially">Genially-код</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════ MAIN PANES ═══════════════════════ -->
-<div id="main">
-
-  <!-- Editor -->
-  <div id="editor-pane">
-    <div class="pane-header">
-      <span>Редактор</span>
-      <div style="display:flex;gap:6px">
-        <button class="btn-icon" id="btn-paste-pdf" title="Вставить PDF-текст (загрузить PDF)">📄 Открыть PDF</button>
-        <input type="file" id="pdf-input" style="display:none" accept=".pdf,.txt" />
-      </div>
-    </div>
-    <textarea id="editor" spellcheck="false" placeholder="Введите или вставьте текст здесь…"></textarea>
-  </div>
-
-  <!-- Preview -->
-  <div id="preview-pane">
-    <div class="pane-header">
-      <span>Предпросмотр</span>
-      <div style="display:flex;gap:6px;align-items:center">
-        <button class="btn-secondary" id="check-btn">✔ Проверить</button>
-        <div class="dropdown" id="tasks-dropdown">
-          <button class="btn-secondary" id="btn-tasks">Задания ▾</button>
-          <div class="dropdown-menu" id="tasks-menu">
-            <div class="dropdown-section">Пропуск букв</div>
-            <button class="dropdown-item" data-task="vowels">Гласные</button>
-            <button class="dropdown-item" data-task="punct">Знаки препинания</button>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item" data-task="none">Снять задание</button>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item" data-task="analysis">📊 Анализ текста</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="preview">
-      <div id="preview-inner"></div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ═══════════════════════ CODE OUTPUT ═══════════════════════ -->
-<div id="code-output">
-  <div id="code-output-header">
-    <span>Genially HTML-код</span>
-    <div style="display:flex;gap:6px">
-      <button class="btn-secondary" id="btn-copy-code">Копировать</button>
-      <button class="btn-icon" id="btn-close-code" title="Закрыть">✕</button>
-    </div>
-  </div>
-  <pre id="code-area"></pre>
-</div>
-
-<!-- ═══════════════════════ ANALYSIS MODAL ═══════════════════════ -->
-<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div id="modal">
-    <div id="modal-header">
-      <h2 id="modal-title">📊 Анализ текста</h2>
-      <button class="btn-icon" id="btn-close-modal" title="Закрыть">✕</button>
-    </div>
-    <div id="modal-body">
-      <div class="analysis-plan">
-        <strong>Комплексный план лингвистического анализа</strong><br><br>
-        <strong>1. Смысловой уровень</strong><br>
-        Тема текста. Основная мысль. Микротемы. Заглавие.<br><br>
-        <strong>2. Речеведческий уровень</strong><br>
-        Стиль речи. Тип речи. Способ связи предложений. Средства связи.<br><br>
-        <strong>3. Языковой уровень</strong><br>
-        <em>Лексика:</em> ключевые слова, синонимы/антонимы, архаизмы/неологизмы, пласты лексики.<br>
-        <em>Фонетика</em> (для поэт. текста): аллитерация, ассонанс.<br>
-        <em>Морфология:</em> преобладающие части речи, роль форм времени глагола.<br>
-        <em>Синтаксис:</em> структура предложений, однородные члены, обособленные обороты, типы предложений по цели и интонации.<br><br>
-        <strong>4. Изобразительно-выразительные средства</strong><br>
-        Тропы: метафоры, эпитеты, олицетворения, сравнения, гиперболы.<br>
-        Фигуры: анафора, антитеза, инверсия, градация, параллелизм.<br><br>
-        <strong>5. Итоги и выводы</strong><br>
-        Связь формы и содержания: как языковые средства раскрывают тему и позицию автора.
-      </div>
-      <textarea id="analysis-draft" placeholder="✏️ Напишите здесь свой анализ…"></textarea>
-    </div>
-  </div>
-</div>
-
-<!-- Toast -->
-<div id="toast" aria-live="polite"></div>
-
+<body>
+<header><div class="brand"><span class="brand-mark" aria-hidden="true">❧</span><div><h1>Лесные истории</h1><p>Мастерская интерактивного текста</p></div></div><div class="top-actions"><button id="save">↓ Сохранить проект</button><button id="load">↑ Загрузить</button><button id="export">Скачать HTML</button><button id="lighten">Облегчить код</button><button id="copy" class="primary">Код для Genially ↗</button></div></header>
+<main class="workspace"><nav aria-label="Разделы редактора"><p class="nav-title">ВАША МАСТЕРСКАЯ</p><div id="navigation"></div><div class="nav-note">«В каждом тексте<br>скрывается маленькая<br>история. Оживите её»<br><span style="font-size:24px;color:#ac8651">❧</span></div></nav><aside class="settings" id="settings"></aside><section class="preview-area"><div class="work-heading"><div><p class="eyebrow">ОТ ТЕКСТА К МАЛЕНЬКОМУ ПРИКЛЮЧЕНИЮ</p><h2 id="work-title">Пропущенные буквы</h2><p id="work-desc">Нажмите на букву в тексте, чтобы превратить её в пропуск.</p></div><span class="saved" id="save-status">● Всё сохранено</span></div><div class="preview-toolbar"><span class="mode-badge" id="mode-label">ПРОПУСК БУКВ</span><div class="preview-tools"><button id="undo" title="Отменить (Ctrl/Cmd+Z)">↶</button><button id="redo" title="Вернуть (Ctrl/Cmd+Shift+Z)">↷</button><button id="preview-toggle">◉ Предпросмотр</button><button id="test" class="gold">▷ Тестировать</button></div></div><div class="stage-wrap"><div id="stage"></div></div><div class="preview-caption"><span id="annotation-count"></span><strong>❧ Ваша история оживает здесь</strong><span>16:9 · адаптивная сцена</span></div><div class="below-stage"><article class="tip-card"><span class="number">01</span><b>Добавьте историю</b><p>Вставьте свой текст или загрузите PDF с текстовым слоем.</p></article><article class="tip-card"><span class="number">02</span><b>Спрячьте маленький секрет</b><p>Отметьте буквы, знаки или члены предложения прямо в тексте.</p></article><article class="tip-card"><span class="number">03</span><b>Поделитесь приключением</b><p>Скачайте готовую игру или вставьте её в Genially.</p></article></div></section></main>
+<footer>Все права защищены и принадлежат Гальмиз Марии Александровне</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="modal"><button class="modal-close" id="close-modal" aria-label="Закрыть">×</button><div id="modal-content"></div></dialog>
+<input hidden type="file" id="project-file" accept=".json,.txtproj,.gtproj"><input hidden type="file" id="text-file" accept=".pdf,.txt"><input hidden type="file" id="asset-file" accept="image/png,image/jpeg,image/webp,image/gif">
 <script>
-// ══════════════════════════════════════════════
-//  State
-// ══════════════════════════════════════════════
-const state = {
-  rawText:    '',
-  activeTask: 'none',   // 'none' | 'vowels' | 'punct'
-  gaps:       [],       // { char, correct, userInput }
-  font:       'system-ui, sans-serif',
-  fontSize:   16,
-  color:      '#1a1a2e',
-  lang:       'none',
-};
-
-// ══════════════════════════════════════════════
-//  DOM refs
-// ══════════════════════════════════════════════
-const editor       = document.getElementById('editor');
-const preview      = document.getElementById('preview-inner');
-const fontSelect   = document.getElementById('font-select');
-const fontSizeInp  = document.getElementById('font-size');
-const fontColor    = document.getElementById('font-color');
-const langSelect   = document.getElementById('lang-select');
-const checkBtn     = document.getElementById('check-btn');
-const codeOutput   = document.getElementById('code-output');
-const codeArea     = document.getElementById('code-area');
-const modalOverlay = document.getElementById('modal-overlay');
-const analysisDraft= document.getElementById('analysis-draft');
-
-// ══════════════════════════════════════════════
-//  Render preview (debounced, no flicker)
-// ══════════════════════════════════════════════
-let renderTimer = null;
-function scheduleRender() {
-  clearTimeout(renderTimer);
-  renderTimer = setTimeout(renderPreview, 60);
+'use strict';
+const ROLES={subject:'Подлежащее',predicate:'Сказуемое',attribute:'Определение',object:'Дополнение',adverbial:'Обстоятельство'};
+const MODES={letters:'Пропуск букв',punctuation:'Пунктуация',syntax:'Члены предложения',analysis:'Анализ текста'};
+const FOREST=`<svg class="forest-art" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="f" x2="0" y2="1"><stop stop-color="#76816a"/><stop offset="1" stop-color="#293d31"/></linearGradient><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".4" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".08"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter><g id="pine"><path d="M0 0l-25 75h14l-35 65h22l-45 70h31l-55 80h78v70h30v-70h78l-55-80h31l-45-70h22l-35-65h14z" fill="currentColor"/></g><g id="twig" fill="none" stroke="currentColor" stroke-width="3"><path d="M0 100Q22 50 20 0M12 67L-8 45M18 38L-4 20M21 24L41 7M6 86L32 67"/><path d="M-8 45q-15-19-11-29q19 3 19 25M-4 20q-11-16-8-23q17 3 17 19M41 7q14-14 11-23q-15 2-15 21M32 67q17-14 17-24q-19 4-22 20"/></g></defs><g fill="#f3e2b0"><circle cx="290" cy="60" r="1.6"/><circle cx="540" cy="35" r="1.5"/><circle cx="640" cy="80" r="1"/><circle cx="720" cy="45" r="1.5"/><circle cx="405" cy="42" r="1"/><circle cx="920" cy="65" r="1.8"/><circle cx="180" cy="80" r="1.3"/><circle cx="800" cy="85" r="1"/><path d="M1075 48a22 22 0 1 0 23 32a25 25 0 0 1-23-32"/></g><g filter="url(#grain)"><g color="#263c37"><use href="#pine" transform="translate(100 75) scale(1.7)"/><use href="#pine" transform="translate(1050 80) scale(1.9)"/><use href="#pine" transform="translate(920 200) scale(1.6)"/><use href="#pine" transform="translate(240 180) scale(1.5)"/></g><g color="#425038"><use href="#pine" transform="translate(15 255) scale(1.2)"/><use href="#pine" transform="translate(1170 220) scale(1.3)"/></g><path d="M0 625q220-85 500 10t700-15v80H0" fill="#263a2d"/><g color="#9a8651" opacity=".7"><use href="#twig" transform="translate(75 580) rotate(-30) scale(1.3)"/><use href="#twig" transform="translate(200 620) rotate(-20)"/><use href="#twig" transform="translate(1120 540) rotate(25) scale(1.7)"/><use href="#twig" transform="translate(1040 600) rotate(-15)"/><use href="#twig" transform="translate(900 625) rotate(20)"/></g><g fill="#e4b266"><circle cx="90" cy="445" r="2"/><circle cx="1080" cy="460" r="2"/><circle cx="995" cy="575" r="2.5"/><circle cx="230" cy="560" r="2"/></g></g></svg>`;
+function defaults(){return {version:'1.0.0',meta:{title:'Тайна лесной тропинки',lang:'ru',sound:false,autosave:true},document:{text:'Вечерний лес хранил свои тайны. Между высокими соснами вилась узкая тропинка. На мягком мху мерцали капли росы.\n\n«Куда ведёт эта дорожка?» — подумала девочка и осторожно шагнула вперёд.',pages:[],formats:[],bold:false,italic:false},mode:'letters',annotations:{letters:[1,9,15,27].map(start=>({start,end:start+1,answer:'Вечерний лес хранил свои тайны. Между высокими соснами вилась узкая тропинка. На мягком мху мерцали капли росы.\n\n«Куда ведёт эта дорожка?» — подумала девочка и осторожно шагнула вперёд.'.slice(start,start+1)})),punctuation:[],syntax:[]},gameplay:{lives:3,timer:'off',seconds:180,points:10,score:true,reuse:false,decoys:'',minimumNote:true},theme:{preset:'forest',background:'#182d2d',paper:'#f2e6cd',ink:'#3e352c',accent:'#9a593a',tile:'#f8eedb',font:'Georgia',size:25,leading:1.85,radius:14,padding:26,align:'left',opacity:100,shadow:true,tileSize:44,tileRadius:8,button:'#f8eedb',backgroundImage:'',gradient:false},assets:{},analysis:{prompt:'Определите тему и основную мысль текста. Найдите эпитеты и объясните, как они передают настроение леса.',note:'',drawing:[]},endScreens:{win:{title:'История разгадана!',text:'Вы справились со всеми заданиями. Лес открывает вам свои секреты.',image:'',background:'#f2e6cd'},lose:{title:'Попробуем ещё раз?',text:'Каждая ошибка — шаг к открытию. Вернитесь на лесную тропинку.',image:'',background:'#f2e6cd'},time:{title:'Время вышло',text:'Приключение ещё не закончено. Попробуйте пройти его снова.',image:'',background:'#f2e6cd'}},editor:{filter:'any',every:3,showAnswers:true,role:'subject',selection:[],zoom:100}}}
+let project=defaults(),tab='letters',previewOnly=false,testMode=false,history=[],future=[],runtimeCleanup=null,saveTimer,toastTimer,assetTarget='backgroundImage',selection=null,pdfPages=[];
+const $=id=>document.getElementById(id),clone=x=>JSON.parse(JSON.stringify(x));
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function notify(message){$('toast').textContent=message;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').textContent='',4500)}
+function snapshot(){history.push(clone(project));if(history.length>100)history.shift();future=[]}
+function change(fn,rebuild=false){snapshot();fn(project);project.meta.updated=new Date().toISOString();scheduleSave();if(rebuild)render();else renderStage();updateHistory()}
+function scheduleSave(){clearTimeout(saveTimer);$('save-status').textContent=project.meta.autosave?'◌ Сохраняем…':'○ Автосохранение выключено';if(!project.meta.autosave)return;saveTimer=setTimeout(()=>{try{localStorage.setItem('forest-text-project-v1',JSON.stringify(project));$('save-status').textContent='● Всё сохранено'}catch{$('save-status').textContent='! Сохраните проект в файл';notify('Память браузера заполнена. Скачайте проект, чтобы сохранить изображения.')}},700)}
+function updateHistory(){$('undo').disabled=!history.length;$('redo').disabled=!future.length}
+function undo(){if(!history.length||testMode)return;future.push(clone(project));project=history.pop();selection=null;render();scheduleSave()}
+function redo(){if(!future.length||testMode)return;history.push(clone(project));project=future.pop();selection=null;render();scheduleSave()}
+function setPath(path,value){const parts=path.split('.');change(p=>{let o=p;for(const k of parts.slice(0,-1))o=o[k];o[parts.at(-1)]=value});if(path==='editor.role')renderSettings()}
+function field(label,path,type='text',extra=''){let v=path.split('.').reduce((o,k)=>o[k],project);return `<label>${label}<input data-path="${path}" type="${type}" value="${esc(v)}" ${extra}></label>`}
+function check(label,path){const v=path.split('.').reduce((o,k)=>o[k],project);return `<label class="inline"><input data-path="${path}" type="checkbox" ${v?'checked':''}>${label}</label>`}
+function selectField(label,path,options){const v=path.split('.').reduce((o,k)=>o[k],project);return `<label>${label}<select data-path="${path}">${options.map(([a,b])=>`<option value="${esc(a)}" ${String(v)===String(a)?'selected':''}>${esc(b)}</option>`).join('')}</select></label>`}
+function navigate(next){if(testMode)stopTest();if(MODES[next]&&project.mode!==next){snapshot();project.mode=next;selection=null;scheduleSave()}tab=next;render()}
+function render(){renderNav();renderSettings();renderStage();updateHistory()}
+function renderNav(){const items=[['project','❧','Проект'],['text','¶','Текст / PDF'],['letters','а','Пропуск букв'],['punctuation','“','Пунктуация'],['syntax','≋','Члены предложения'],['analysis','✎','Анализ текста'],['gameplay','♡','Жизни, таймер, баллы'],['design','◐','Дизайн игры'],['end','✧','Финальные экраны']];$('navigation').innerHTML=items.map(([key,icon,name],i)=>`${i===6?'<div class="nav-divider"></div>':''}<button class="nav-item ${tab===key?'active':''}" data-tab="${key}" ${tab===key?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${icon}</span>${name}</button>`).join('');$('navigation').querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>navigate(b.dataset.tab))}
+const FONTS=['Arial','Arial Narrow','Verdana','Tahoma','Trebuchet MS','Georgia','Times New Roman','Courier New','Segoe UI','Calibri','Cambria','Aptos','Century Gothic','Garamond','Bookman Old Style','Palatino Linotype','Franklin Gothic','Gill Sans','Helvetica','Inter','Roboto','Open Sans','Montserrat','Manrope','Lato','Nunito','PT Sans','PT Serif','Noto Sans','Noto Serif','Source Sans 3','Source Serif 4','Merriweather','Ubuntu','Rubik','Raleway','Comfortaa','Fira Sans','Fira Code','IBM Plex Sans','IBM Plex Serif','JetBrains Mono','Caveat','Marck Script'];
+function renderSettings(){let html='';const head=(title,desc)=>`<p class="eyebrow">НАСТРОЙКИ МАСТЕРСКОЙ</p><h2>${title}</h2><p>${desc}</p>`;
+if(tab==='project')html=head('Ваша история','Дайте приключению имя. Все материалы хранятся в вашем браузере.')+field('Название проекта','meta.title')+selectField('Язык игры','meta.lang',[['ru','Русский'],['en','English']])+check('Звуки правильных ответов и ошибок','meta.sound')+check('Автосохранение','meta.autosave')+field('Масштаб предпросмотра, %','editor.zoom','number','min="80" max="160" step="10"')+'<button class="wide" data-action="new">Начать новую историю</button><div class="hint">Ctrl / Cmd + S — сохранить проект<br>Ctrl / Cmd + Z — отменить действие<br>Shift + Ctrl / Cmd + Z — вернуть</div>';
+if(tab==='text')html=head('Текст / PDF','Добавьте историю, с которой будут работать ученики.')+'<label class="file-zone" for="text-file"><strong>↑ Загрузить PDF или TXT</strong><small>Текстовый слой · выбор страниц</small></label><label>Исходный текст<textarea id="source-text" rows="10" spellcheck="true">'+esc(project.document.text)+'</textarea></label><span class="text-count">'+project.document.text.length+' символов</span><div class="segmented"><button data-action="bold" class="'+(project.document.bold?'active':'')+'"><b>Ж</b> Жирный</button><button data-action="italic" class="'+(project.document.italic?'active':'')+'"><i>К</i> Курсив</button></div><h3>Поиск и замена</h3><input id="find-text" placeholder="Найти" aria-label="Найти"><input id="replace-text" placeholder="Заменить на" aria-label="Заменить на" style="margin-top:7px"><button class="wide" data-action="replace">Заменить все</button><div class="hint">Разметка привязана к символам. При изменении текста позиции сохраняются, а затронутые задания удаляются после подтверждения.</div>';
+if(tab==='letters'||tab==='punctuation'){const punct=tab==='punctuation';html=head(punct?'Знаки препинания':'Пропуск букв',punct?'Нажмите на знак в тексте. Нажмите на пропуск, чтобы вернуть его.':'Нажмите на нужную букву или выделите несколько букв мышью.')+(punct?selectField('Составные знаки','editor.compound',[['single','Отдельные символы'],['group','Объединять … и ?!']]):selectField('Разрешённые буквы','editor.filter',[['any','Любые буквы'],['vowels','Только гласные'],['consonants','Только согласные']]))+'<h3>Автовыбор</h3>'+field('Каждый N-й элемент','editor.every','number','min="1" max="50"')+'<button class="wide primary" data-action="auto">✧ Создать пропуски</button><button class="wide" data-action="mark-selection">Скрыть выделенный фрагмент</button><button class="wide" data-action="clear">Удалить все пропуски</button>'+check('Использовать плитки повторно','gameplay.reuse')+(punct?field('Лишние знаки-ловушки (через пробел)','gameplay.decoys'):'')+'<div class="hint">В игре можно перетащить плитку или нажать сначала на неё, затем на пропуск. Одинаковые буквы подходят к любому соответствующему месту.</div>'}
+if(tab==='syntax')html=head('Члены предложения','Выберите роль, затем нажмите на слово или выделите группу слов.')+'<div class="role-chooser">'+Object.entries(ROLES).map(([r,name])=>`<button data-role="${r}" class="${project.editor.role===r?'active':''}"><span class="role-${r}">${name}</span></button>`).join('')+'</div><button class="wide primary" data-action="mark-selection">Назначить роль выделению</button><button class="wide" data-action="remove-selection">Снять роль с выделения</button>'+check('Показывать правильные ответы','editor.showAnswers')+'<button class="wide" data-action="clear">Удалить всю разметку</button><div class="hint">Повторный клик по размеченному слову снимает роль. Для группы слов используйте выделение и кнопку выше.</div>';
+if(tab==='analysis')html=head('Анализ текста','Черновик с карандашом, фигурами и печатными заметками.')+'<label>Задание для ученика<textarea data-path="analysis.prompt" rows="5">'+esc(project.analysis.prompt)+'</textarea></label>'+check('Для завершения нужна хотя бы одна заметка или рисунок','gameplay.minimumNote')+'<div class="hint">Содержание анализа не оценивается автоматически. Ученик завершает работу кнопкой «Завершить анализ».</div>';
+if(tab==='gameplay')html=head('Правила игры','Настройте темп приключения и право на ошибку.')+field('Жизни (0 — отключены)','gameplay.lives','number','min="0" max="10"')+selectField('Таймер','gameplay.timer',[['off','Выключен'],['down','Обратный отсчёт'],['up','Прямой отсчёт']])+field('Время, секунды','gameplay.seconds','number','min="10" max="3600"')+check('Показывать баллы','gameplay.score')+field('Баллы за правильный элемент','gameplay.points','number','min="1" max="1000"')+'<div class="hint">При ошибке снимается одна жизнь. Когда все элементы восстановлены, игра показывает итоговую статистику.</div>';
+if(tab==='design')html=head('Лесная палитра','Настройте сцену. Изменения сразу видны справа.')+'<div class="swatch-presets">'+[['forest','Лесная сказка','#24483b'],['light','Пергамент','#bd9861'],['dark','Ночной лес','#18232b'],['contrast','Высокий контраст','#111111']].map(([k,n,c])=>`<button data-preset="${k}"><span class="swatch-dot" style="--dot:${c}"></span>${n}</button>`).join('')+'</div><div class="row">'+field('Фон сцены','theme.background','color')+field('Карточка текста','theme.paper','color')+field('Цвет текста','theme.ink','color')+field('Акцент','theme.accent','color')+field('Плитки','theme.tile','color')+field('Кнопки','theme.button','color')+'</div>'+check('Градиент сцены','theme.gradient')+'<label>Поиск шрифта<input id="font-search" placeholder="Например: Georgia"></label>'+selectField('Шрифт','theme.font',FONTS.map(x=>[x,x]))+'<div class="font-preview" id="font-preview">Шелест лесных страниц</div><div class="row">'+field('Размер текста','theme.size','number','min="14" max="48"')+field('Интервал','theme.leading','number','min="1" max="3" step="0.05"')+field('Скругление','theme.radius','number','min="0" max="40"')+field('Поля карточки','theme.padding','number','min="8" max="60"')+field('Плитки, px','theme.tileSize','number','min="44" max="80"')+field('Скругление плиток','theme.tileRadius','number','min="0" max="40"')+'</div>'+selectField('Выравнивание','theme.align',[['left','По левому краю'],['center','По центру'],['justify','По ширине']])+field('Непрозрачность карточки, %','theme.opacity','number','min="30" max="100"')+check('Тень карточки','theme.shadow')+'<h3>Фоновое изображение</h3><button class="wide" data-action="background">↑ PNG / JPG / WebP / GIF</button>'+(project.theme.backgroundImage?'<button class="wide" data-action="remove-background">Удалить фон</button>':'')+'<p class="file-info" id="asset-info">Статичные изображения уменьшаются до 1920 px. GIF сохраняет анимацию.</p>';
+if(tab==='end')html=head('Последняя страница','Финальный экран завершает маленькое приключение.')+selectField('Экран','editor.endKind',[['win','Победа'],['lose','Поражение'],['time','Время вышло']])+(()=>{const k=project.editor.endKind||'win';return field('Заголовок',`endScreens.${k}.title`)+field('Сообщение',`endScreens.${k}.text`)+field('Фон',`endScreens.${k}.background`,'color')+`<button class="wide" data-action="end-image">↑ Картинка / GIF</button><button class="wide" data-action="remove-end-image">Удалить картинку</button><button class="wide primary" data-action="show-end">Посмотреть экран</button>`})();
+$('settings').innerHTML=html;
+$('settings').querySelectorAll('[data-path]').forEach(el=>el.addEventListener(el.type==='color'||el.type==='number'?'input':'change',()=>{let v=el.type==='checkbox'?el.checked:el.type==='number'?Number(el.value):el.value;if(el.type==='number'){const min=Number(el.min),max=Number(el.max);v=Math.min(max,Math.max(min,v));el.value=v}setPath(el.dataset.path,v);if(el.dataset.path==='editor.endKind')renderSettings();if(el.dataset.path==='theme.font')updateFontPreview()}));
+$('settings').querySelectorAll('[data-action]').forEach(el=>el.onclick=()=>action(el.dataset.action));$('settings').querySelectorAll('[data-role]').forEach(el=>el.onclick=()=>setPath('editor.role',el.dataset.role));$('settings').querySelectorAll('[data-preset]').forEach(el=>el.onclick=()=>preset(el.dataset.preset));
+if($('source-text'))$('source-text').addEventListener('input',e=>{if(!editText(e.target.value,true))e.target.value=project.document.text});
+if($('font-search'))$('font-search').oninput=e=>{const sel=$('settings').querySelector('[data-path="theme.font"]');sel.innerHTML=FONTS.filter(f=>f.toLowerCase().includes(e.target.value.toLowerCase())).map(f=>`<option value="${esc(f)}" ${f===project.theme.font?'selected':''}>${esc(f)}</option>`).join('')};updateFontPreview();
 }
-
-function renderPreview() {
-  // Apply styles
-  preview.style.fontFamily = state.font;
-  preview.style.fontSize   = state.fontSize + 'px';
-  preview.style.color      = state.color;
-  preview.style.lineHeight = '1.9';
-
-  const text = state.rawText;
-
-  if (state.activeTask === 'none') {
-    // Plain render: paragraphs
-    preview.innerHTML = textToParagraphs(text);
-    checkBtn.style.display = 'none';
-    return;
-  }
-
-  // Gap exercise
-  checkBtn.style.display = 'inline-flex';
-  const VOWELS = /[аеёиоуыэюяАЕЁИОУЫЭЮЯaeiouyAEIOUY]/;
-  const PUNCT  = /[.,!?;:—–\-…""«»()]/;
-  const testRe = state.activeTask === 'vowels' ? VOWELS : PUNCT;
-
-  state.gaps = [];
-  let gapIndex = 0;
-
-  const chars = [...text];
-  const html = chars.map(ch => {
-    if (testRe.test(ch)) {
-      const idx = gapIndex++;
-      const prev = state.gaps[idx];
-      state.gaps[idx] = { char: ch, correct: false, userInput: prev ? prev.userInput : '' };
-      const val = prev ? escAttr(prev.userInput) : '';
-      const cls = prev && prev.correct !== null
-                    ? (prev.correct ? 'correct' : 'incorrect')
-                    : '';
-      return `<span class="gap-box ${cls}"><input maxlength="1" data-gap="${idx}" value="${val}" aria-label="Пропуск ${idx+1}" /></span>`;
-    }
-    if (ch === '\n') return '<br/>';
-    return escHtml(ch);
-  }).join('');
-
-  preview.innerHTML = `<p style="white-space:pre-wrap;word-break:break-word">${html}</p>`;
-
-  // Attach listeners to gap inputs
-  preview.querySelectorAll('input[data-gap]').forEach(inp => {
-    inp.addEventListener('input', e => {
-      const i = +e.target.dataset.gap;
-      state.gaps[i].userInput = e.target.value;
-      state.gaps[i].correct   = null;  // reset until checked
-      e.target.closest('.gap-box').className = 'gap-box';
-    });
-    inp.addEventListener('keydown', e => {
-      // Tab moves to next gap
-      if (e.key === 'Tab') {
-        e.preventDefault();
-        const all = [...preview.querySelectorAll('input[data-gap]')];
-        const cur = all.indexOf(e.target);
-        const nxt = all[e.shiftKey ? cur - 1 : cur + 1];
-        if (nxt) nxt.focus();
-      }
-    });
-  });
+function updateFontPreview(){if($('font-preview'))$('font-preview').style.fontFamily='"'+project.theme.font+'",Georgia,serif'}
+function preset(k){const themes={forest:{background:'#182d2d',paper:'#f2e6cd',ink:'#3e352c',accent:'#9a593a',tile:'#f8eedb',button:'#f8eedb'},light:{background:'#b9b79a',paper:'#fff7e5',ink:'#3b4435',accent:'#6b7946',tile:'#faf3dc',button:'#faf3dc'},dark:{background:'#101d28',paper:'#26363e',ink:'#f2e4cc',accent:'#edb66c',tile:'#d7c6a2',button:'#d7c6a2'},contrast:{background:'#111111',paper:'#ffffff',ink:'#111111',accent:'#794017',tile:'#ffffff',button:'#ffffff'}};change(p=>Object.assign(p.theme,themes[k],{preset:k}),true)}
+function eligible(ch){if(project.mode==='punctuation')return /[.,!?;:—–\-…«»“”"'()\[\]]/.test(ch);if(!/[a-zа-яё]/i.test(ch))return false;const vowel=/[аеёиоуыэюяaeiouy]/i.test(ch);return project.editor.filter==='vowels'?vowel:project.editor.filter==='consonants'?!vowel:true}
+function currentAnnotations(){return project.mode==='analysis'?[]:project.annotations[project.mode]}
+function toggleGap(start,end){const existing=currentAnnotations().find(a=>a.start<=start&&a.end>start);change(p=>{const list=p.annotations[p.mode];if(existing)p.annotations[p.mode]=list.filter(a=>a!==existing);else list.push({start,end,answer:p.document.text.slice(start,end)})})}
+function addRange(start,end){if(start===end)return;if(project.mode==='syntax'){const overlap=project.annotations.syntax.filter(a=>start<a.end&&end>a.start);if(overlap.length&&!confirm('Выделение пересекает существующую разметку. Заменить её?'))return;change(p=>{p.annotations.syntax=p.annotations.syntax.filter(a=>!(start<a.end&&end>a.start));p.annotations.syntax.push({start,end,role:p.editor.role,answer:p.document.text.slice(start,end)})})}else if(project.mode==='letters'||project.mode==='punctuation'){change(p=>{for(let i=start;i<end;i++){if(!eligible(p.document.text[i])||p.annotations[p.mode].some(a=>a.start<=i&&a.end>i))continue;let e=i+1;if(p.mode==='punctuation'&&p.editor.compound==='group'){const m=p.document.text.slice(i,end).match(/^(?:\.{3}|[?!]{2}|…)/);if(m)e=i+m[0].length}p.annotations[p.mode].push({start:i,end:e,answer:p.document.text.slice(i,e)});i=e-1}})}}
+function editText(next,preserveInput=false){next=next.replace(/\r\n?/g,'\n');const old=project.document.text;if(next===old)return true;let a=0;while(a<old.length&&a<next.length&&old[a]===next[a])a++;let b=old.length,c=next.length;while(b>a&&c>a&&old[b-1]===next[c-1]){b--;c--}const removed=Object.values(project.annotations).flat().filter(x=>x.start<b&&x.end>a);if(removed.length&&!confirm(`Изменение затрагивает ${removed.length} заданий. Удалить связанную разметку?`))return false;change(p=>{p.document.text=next;const delta=c-b;p.document.formats=(p.document.formats||[]).filter(f=>!(f.start<b&&f.end>a)).map(f=>f.start>=b?{...f,start:f.start+delta,end:f.end+delta}:f);for(const mode of Object.keys(p.annotations))p.annotations[mode]=p.annotations[mode].filter(x=>!(x.start<b&&x.end>a)).map(x=>x.start>=b?{...x,start:x.start+delta,end:x.end+delta}:x)},!preserveInput);if(preserveInput&&document.querySelector('.text-count'))document.querySelector('.text-count').textContent=next.length+' символов';return true}
+function action(name){if(name==='new'){if(confirm('Начать заново? Текущую историю можно вернуть кнопкой отмены.'))change(()=>{project=defaults();tab='text'},true)}if(name==='auto'){change(p=>{const list=[];let n=0;for(let i=0;i<p.document.text.length;i++)if(eligible(p.document.text[i])){let e=i+1;if(p.mode==='punctuation'&&p.editor.compound==='group'){const m=p.document.text.slice(i).match(/^(?:\.{3}|[?!]{2}|…)/);if(m)e=i+m[0].length}if(++n%Math.max(1,p.editor.every)===0)list.push({start:i,end:e,answer:p.document.text.slice(i,e)});i=e-1}p.annotations[p.mode]=list});notify('Пропуски созданы. Их можно изменять вручную.')}if(name==='clear'&&confirm('Удалить всю разметку в этом режиме?'))change(p=>p.annotations[p.mode]=[]);if(name==='mark-selection'){if(selection)addRange(selection.start,selection.end);else notify('Сначала выделите фрагмент в предпросмотре.')}if(name==='remove-selection'){if(selection)change(p=>p.annotations.syntax=p.annotations.syntax.filter(a=>!(a.start<selection.end&&a.end>selection.start)));else notify('Сначала выделите фрагмент.')}if(name==='replace'){const from=$('find-text').value;if(!from){notify('Введите текст для поиска.');return}editText(project.document.text.split(from).join($('replace-text').value))}if(name==='bold'||name==='italic'){const source=$('source-text');if(source&&source.selectionStart!==source.selectionEnd){const start=source.selectionStart,end=source.selectionEnd;change(p=>{const formats=p.document.formats||(p.document.formats=[]);const existing=formats.find(f=>f.start===start&&f.end===end&&f.style===name);p.document.formats=existing?formats.filter(f=>f!==existing):[...formats,{start,end,style:name}]},true)}else change(p=>p.document[name]=!p.document[name],true)}if(name==='bullet-list'){const source=$('source-text'),start=source.value.lastIndexOf('\n',source.selectionStart-1)+1,endLine=source.value.indexOf('\n',source.selectionEnd),end=endLine===-1?source.value.length:endLine;editText(source.value.slice(0,start)+source.value.slice(start,end).split('\n').map(line=>'• '+line).join('\n')+source.value.slice(end))}if(name==='background'){assetTarget='backgroundImage';$('asset-file').click()}if(name==='remove-background')change(p=>{p.theme.backgroundImage='';delete p.assets.backgroundImage},true);if(name==='end-image'){assetTarget='end-'+(project.editor.endKind||'win');$('asset-file').click()}if(name==='remove-end-image')change(p=>{p.endScreens[p.editor.endKind||'win'].image='';delete p.assets['end-'+(p.editor.endKind||'win')]},true);if(name==='show-end'){const s=project.endScreens[project.editor.endKind||'win'];openModal(`<h2>${esc(s.title)}</h2>${s.image?'<img src="'+esc(s.image)+'" style="max-width:100%;max-height:200px">':''}<p>${esc(s.text)}</p><button class="primary" id="end-close">Ещё раз</button>`);$('modal-content').style.background=s.background;$('end-close').onclick=closeModal}}
+function gameRuntime(root,p,forest,editing,onEdit,onDraft){
+ const roles={subject:'Подлежащее',predicate:'Сказуемое',attribute:'Определение',object:'Дополнение',adverbial:'Обстоятельство'};
+ const english=p.meta.lang==='en';const t=(ru,en)=>english?en:ru;
+ const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const data=p.mode==='analysis'?[]:p.annotations[p.mode];let solved=new Set(),selected=null,used=new Set(),errors=0,lives=p.gameplay.lives,elapsed=0,finished=false,timer=null,drag=null;let tiles=[],draftCleanup=null,restartCleanup=null;
+ const total=data.length;const theme=p.theme;
+ root.innerHTML=`<section class="game" aria-label="${escape(p.meta.title)}"><div class="landscape"></div>${forest}<div class="hud"><span class="game-title">${escape(p.meta.title)}</span><div class="counters"><span class="life-counter"></span><span class="time-counter"></span><span class="score-counter"></span></div></div><div class="paper"><p class="instruction"></p><div class="reading"></div></div><div class="bank" aria-label="Плитки ответов"></div><div class="game-status" role="status" aria-live="polite"></div></section>`;
+ const scene=root.querySelector('.game'),reading=root.querySelector('.reading'),bank=root.querySelector('.bank'),status=root.querySelector('.game-status');
+ for(const [k,v] of Object.entries({ink:theme.ink,paper:theme.paper,accent:theme.accent,tile:theme.tile,font:'"'+theme.font.replace(/["\\]/g,'')+'", Georgia, serif',size:theme.size+'px',leading:theme.leading,radius:theme.radius+'px'}))scene.style.setProperty('--'+k,v);
+ const landscape=root.querySelector('.landscape');if(theme.backgroundImage){landscape.style.backgroundImage='url("'+theme.backgroundImage+'")';root.querySelector('.forest-art').style.opacity='.25'}else if(theme.preset!=='forest'){landscape.style.background=theme.gradient?`linear-gradient(135deg,${theme.background},${theme.accent})`:theme.background}
+ const paper=root.querySelector('.paper');paper.style.padding=theme.padding+'px';paper.style.background=theme.paper+(theme.opacity<100?Math.round(theme.opacity*2.55).toString(16).padStart(2,'0'):'');if(!theme.shadow)paper.style.boxShadow='none';reading.style.textAlign=theme.align;reading.style.fontWeight=p.document.bold?'bold':'normal';reading.style.fontStyle=p.document.italic?'italic':'normal';
+ function counters(){root.querySelector('.life-counter').textContent=p.gameplay.lives?('♥ '.repeat(lives)+(lives===0?'0':'') ):t('Без ограничения жизней','Unlimited lives');root.querySelector('.time-counter').textContent=p.gameplay.timer==='off'?'':`${p.gameplay.timer==='down'?'◷':'◴'} ${format(p.gameplay.timer==='down'?Math.max(0,p.gameplay.seconds-elapsed):elapsed)}`;root.querySelector('.score-counter').textContent=p.gameplay.score?`${solved.size*p.gameplay.points} ${t('баллов','points')}`:''}
+ function format(s){return Math.floor(s/60).toString().padStart(2,'0')+':'+(s%60).toString().padStart(2,'0')}
+ function message(text,error=false){status.textContent=text;status.classList.toggle('error',error)}
+ function sound(ok){if(!p.meta.sound)return;try{const C=window.AudioContext||window.webkitAudioContext;const ctx=new C(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.frequency.value=ok?660:180;gain.gain.setValueAtTime(.035,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.15);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.15);osc.onended=()=>ctx.close()}catch{}}
+ function fail(){if(finished)return;errors++;if(p.gameplay.lives)lives=Math.max(0,lives-1);message(t('✕ Пока неверно. Попробуйте другую плитку.','✕ Try another answer.'),true);sound(false);counters();if(p.gameplay.lives&&lives===0)end('lose')}
+ function end(kind){if(finished)return;finished=true;clearInterval(timer);const s=p.endScreens[kind];const overlay=document.createElement('div');overlay.className='end-overlay';overlay.innerHTML=`<div class="end-card" style="background:${escape(s.background)}"><div class="end-symbol">${kind==='win'?'✧':kind==='time'?'◷':'❧'}</div>${s.image?`<img src="${escape(s.image)}" alt="">`:''}<h2>${escape(s.title)}</h2><p>${escape(s.text)}</p><p>${t('Выполнено','Completed')}: ${p.mode==='analysis'?1:solved.size} / ${p.mode==='analysis'?1:total}<br>${t('Ошибки','Errors')}: ${errors} · ${t('Жизни','Lives')}: ${p.gameplay.lives?lives:'∞'}<br>${t('Время','Time')}: ${format(elapsed)}${p.gameplay.score?' · '+(p.mode==='analysis'?p.gameplay.points:solved.size*p.gameplay.points)+' '+t('баллов','points'):''}</p><button class="game-button">${t('Ещё раз','Try again')}</button></div>`;scene.append(overlay);overlay.querySelector('button').onclick=()=>{cleanup();restartCleanup=gameRuntime(root,p,forest,false)};overlay.querySelector('button').focus()}
+ function complete(index){solved.add(index);message(t('✓ Верно! Продолжайте историю.','✓ Correct! Keep going.'));sound(true);counters();drawText();drawBank();if(solved.size===total&&total)end('win')}
+ function applyGap(index){if(editing){onEdit('gap',data[index].start,data[index].end);return}if(finished||solved.has(index))return;if(selected===null){message(t('Сначала выберите плитку внизу.','Select a tile first.'));return}const tile=tiles[selected];if(!tile||used.has(selected))return;if(tile.answer!==data[index].answer){fail();return}if(!p.gameplay.reuse)used.add(selected);selected=null;complete(index)}
+ function syntaxClick(start,endIndex){if(editing){onEdit('syntax',start,endIndex);return}if(finished)return;if(!selected){message(t('Сначала выберите член предложения.','Select a sentence part first.'));return}const index=data.findIndex(a=>a.start===start&&a.end===endIndex);if(index===-1||data[index].role!==selected){fail();return}if(solved.has(index)){message(t('Этот фрагмент уже отмечен.','Already completed.'));return}complete(index)}
+ function formatted(start,end){const formats=p.document.formats||[];if(!formats.length)return escape(p.document.text.slice(start,end));let html='';for(let i=start;i<end;i++){const styles=formats.filter(f=>f.start<=i&&f.end>i).map(f=>f.style==='bold'?'font-weight:bold':'font-style:italic');html+=styles.length?'<span style="'+styles.join(';')+'">'+escape(p.document.text[i])+'</span>':escape(p.document.text[i])}return html}
+ function drawText(){root.querySelector('.instruction').textContent=p.mode==='letters'?t(editing?'Нажмите на букву, чтобы спрятать её.':'Восстановите буквы: выберите плитку и пропуск.','Restore the missing letters.'):p.mode==='punctuation'?t(editing?'Нажмите на знак, чтобы создать пропуск.':'Верните знаки препинания на свои места.','Restore the punctuation.'):p.mode==='syntax'?t(editing?'Выберите роль слева и отметьте слова.':'Выберите член предложения и отметьте слово или группу слов.','Select a sentence part and mark a word or phrase.'):t('Прочитайте текст и выполните анализ на черновике.','Read the text and write your analysis.');
+ if(p.mode==='analysis'){reading.innerHTML=`<div class="analysis-grid"><div><div class="analysis-instruction">${escape(p.analysis.prompt)}</div><div class="analysis-source">${formatted(0,p.document.text.length)}</div></div><div class="draft-shell"><div class="draft-tools"></div><div class="drawing-viewport"><svg class="drawing" viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" aria-label="${t('Черновик для рисования','Drawing area')}"></svg></div><textarea class="draft-note" placeholder="${t('Печатные заметки…','Type notes…')}" aria-label="${t('Заметки','Notes')}">${editing?escape(p.analysis.note):''}</textarea></div></div>`;draftCleanup=setupDraft(reading,p,editing,onDraft,t);return}
+ let out='';const text=p.document.text;
+ if(p.mode==='syntax'){
+ const ranges=new Map(data.map((a,i)=>[a.start,{...a,index:i}]));let i=0;while(i<text.length){const a=ranges.get(i);if(a&&(editing&&p.editor.showAnswers||solved.has(a.index))){out+=`<span class="token role-${a.role} answer" data-start="${i}" data-end="${a.end}">${formatted(i,a.end)}</span>`;i=a.end;continue}const match=text.slice(i).match(/^[\p{L}\p{N}]+(?:[-’'][\p{L}\p{N}]+)*/u);if(match){const endIndex=i+match[0].length;out+=`<span class="token" tabindex="0" role="button" data-start="${i}" data-end="${endIndex}">${formatted(i,endIndex)}</span>`;i=endIndex}else{out+=`<span data-start="${i}" data-end="${i+1}">${escape(text[i])}</span>`;i++}}
+ }else{
+ const byStart=new Map(data.map((a,i)=>[a.start,{...a,index:i}]));let i=0;while(i<text.length){const run=text.slice(i).match(/^\S+/);if(!run){out+=`<span data-start="${i}" data-end="${i+1}">${formatted(i++,i)}</span>`;continue}const finish=i+run[0].length;out+='<span class="word">';while(i<finish){const a=byStart.get(i);if(a){out+=`<button class="gap ${solved.has(a.index)?'correct':''}" data-gap="${a.index}" data-start="${a.start}" data-end="${a.end}" aria-label="${editing? t('Вернуть','Restore')+' '+escape(a.answer):t('Пропуск','Gap')+' '+(a.index+1)}">${solved.has(a.index)?escape(a.answer):'_'}</button>`;i=a.end}else{out+=`<span class="${editing?'character':''}" data-start="${i}" data-end="${i+1}">${formatted(i++,i)}</span>`}}out+='</span>'}
+ }
+ reading.innerHTML=out;
+ reading.querySelectorAll('[data-gap]').forEach(b=>b.onclick=()=>applyGap(Number(b.dataset.gap)));
+ if(p.mode==='syntax')reading.querySelectorAll('.token').forEach(b=>{b.onclick=()=>{if(window.getSelection().toString())return;syntaxClick(Number(b.dataset.start),Number(b.dataset.end))};b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();syntaxClick(Number(b.dataset.start),Number(b.dataset.end))}}});
+ if(editing&&p.mode!=='syntax')reading.querySelectorAll('.character').forEach(c=>c.onclick=()=>{if(window.getSelection().toString())return;onEdit('character',Number(c.dataset.start),Number(c.dataset.end))});
+ }
+ function drawBank(){bank.innerHTML='';if(p.mode==='analysis'){const button=document.createElement('button');button.className='game-button';button.textContent=t('Завершить анализ','Finish analysis');button.disabled=editing;button.onclick=()=>{const note=reading.querySelector('.draft-note').value;if(p.gameplay.minimumNote&&!note.trim()&&!reading.querySelector('.drawing').children.length){message(t('Добавьте хотя бы одну заметку или рисунок.','Add a note or drawing first.'),true);return}end('win')};bank.append(button);return}
+ if(p.mode==='syntax'){Object.entries(roles).forEach(([r,name])=>{const b=document.createElement('button');b.className='tile'+(selected===r?' selected':'');b.innerHTML=`<span class="role-${r}">${escape(name)}</span>`;b.onclick=()=>{selected=r;drawBank();message(t('Выделите слово или фрагмент.','Select a word or phrase.'))};bank.append(b)});if(!editing){const b=document.createElement('button');b.className='game-button';b.textContent=t('Назначить выделению','Mark selection');b.onclick=()=>{const range=getSelectionRange();if(range)syntaxClick(range.start,range.end);else message(t('Выделите фрагмент текста.','Select a phrase first.'))};bank.append(b);const check=document.createElement('button');check.className='game-button';check.textContent=t('Проверить','Check');check.disabled=solved.size===0;check.onclick=()=>{if(solved.size===total)end('win');else message(`${t('Отмечено верно','Correct')}: ${solved.size} / ${total}`)};bank.append(check)}return}
+ if(!tiles.length){tiles=data.map((a,i)=>({answer:a.answer,id:i}));if(p.gameplay.reuse)tiles=Array.from(new Set(tiles.map(a=>a.answer))).map((answer,id)=>({answer,id}));if(p.mode==='punctuation')tiles.push(...p.gameplay.decoys.split(/\s+/).filter(Boolean).map((answer,i)=>({answer,id:total+i})));if(!editing)for(let i=tiles.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[tiles[i],tiles[j]]=[tiles[j],tiles[i]]}}
+ tiles.forEach((tile,index)=>{if(used.has(index))return;const b=document.createElement('button');b.className='tile'+(selected===index?' selected':'');b.textContent=tile.answer;b.setAttribute('aria-label',t('Плитка','Tile')+' '+tile.answer);b.setAttribute('aria-pressed',selected===index?'true':'false');b.style.minWidth=theme.tileSize+'px';b.style.minHeight=theme.tileSize+'px';b.style.borderRadius=theme.tileRadius+'px';b.onclick=()=>{if(editing)return;selected=selected===index?null:index;drawBank();message(t('Теперь выберите пропуск в тексте.','Choose a gap in the text.'))};if(!editing)b.onpointerdown=e=>{if(finished||e.button!==0)return;drag={index,x:e.clientX,y:e.clientY,active:false,element:b};b.setPointerCapture(e.pointerId);b.onpointermove=moveDrag;b.onpointerup=releaseDrag;b.onpointercancel=cancelDrag};bank.append(b)});
+ if(!data.length)message(t(editing?'Отметьте элементы в тексте, чтобы создать задание.':'В этом задании нет пропусков.','No gaps have been marked.'));
+ }
+ function moveDrag(e){if(!drag)return;if(!drag.active&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>8){drag.active=true;drag.ghost=drag.element.cloneNode(true);drag.ghost.className='tile drag-ghost';document.body.append(drag.ghost)}if(drag.active){e.preventDefault();drag.ghost.style.left=e.clientX+'px';drag.ghost.style.top=e.clientY+'px'}}
+ function releaseDrag(e){if(!drag)return;const d=drag;drag=null;if(d.ghost)d.ghost.remove();if(!d.active)return;d.element.onclick=event=>event.preventDefault();const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-gap]');selected=d.index;if(target&&root.contains(target))applyGap(Number(target.dataset.gap));else drawBank()}
+ function cancelDrag(){if(drag?.ghost)drag.ghost.remove();drag=null}
+ function getSelectionRange(){const selection=window.getSelection();if(!selection.rangeCount||selection.isCollapsed)return null;const r=selection.getRangeAt(0);if(!reading.contains(r.startContainer)||!reading.contains(r.endContainer))return null;const elements=[...reading.querySelectorAll('[data-start]')].filter(el=>{try{return r.intersectsNode(el)}catch{return false}});if(!elements.length)return null;return {start:Math.min(...elements.map(x=>+x.dataset.start)),end:Math.max(...elements.map(x=>+x.dataset.end))}}
+ drawText();drawBank();counters();if(!editing){timer=setInterval(()=>{if(finished)return;elapsed++;counters();if(p.gameplay.timer==='down'&&elapsed>=p.gameplay.seconds)end('time')},1000)}
+ function cleanup(){clearInterval(timer);cancelDrag();if(draftCleanup)draftCleanup();if(restartCleanup){restartCleanup();restartCleanup=null}}
+ return cleanup;
 }
-
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function setupDraft(root,p,editing,onDraft,t){
+ const svg=root.querySelector('.drawing'),tools=root.querySelector('.draft-tools'),note=root.querySelector('.draft-note');let items=editing?JSON.parse(JSON.stringify(p.analysis.drawing)):[],undoStack=[],redoStack=[],mode='pen',color='#354c45',width=3,current=null,zoom=1;
+ const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const buttons=[['pen','✎',t('Карандаш','Pen')],['marker','▰',t('Маркер','Marker')],['eraser','⌫',t('Ластик','Eraser')],['text','T',t('Текст','Text')],['line','╱',t('Линия','Line')],['arrow','↗',t('Стрелка','Arrow')],['rect','□',t('Прямоугольник','Rectangle')],['circle','○',t('Окружность','Circle')],['pan','✥',t('Перемещение','Pan')]];
+ tools.innerHTML=buttons.map(([k,s,n])=>`<button data-tool="${k}" title="${n}" aria-label="${n}">${s}</button>`).join('')+`<input type="color" value="${color}" aria-label="${t('Цвет','Color')}" style="width:36px"><input type="number" value="3" min="1" max="20" aria-label="${t('Толщина','Width')}" style="width:44px"><button data-command="undo" aria-label="${t('Отменить рисунок','Undo drawing')}">↶</button><button data-command="redo" aria-label="${t('Вернуть рисунок','Redo drawing')}">↷</button><button data-command="clear">${t('Очистить','Clear')}</button><button data-command="zoom-in" aria-label="${t('Увеличить','Zoom in')}">+</button><button data-command="zoom-out" aria-label="${t('Уменьшить','Zoom out')}">−</button>`;
+ function save(){if(editing&&onDraft)onDraft(items,note.value)}
+ function remember(){undoStack.push(JSON.parse(JSON.stringify(items)));if(undoStack.length>100)undoStack.shift();redoStack=[]}
+ function draw(){svg.innerHTML=items.map((a,index)=>{const style=`stroke="${escape(a.color)}" stroke-width="${a.width}" stroke-linecap="round" stroke-linejoin="round" fill="none" data-index="${index}"`;if(a.type==='pen'||a.type==='marker')return `<path ${style} opacity="${a.type==='marker'?'.3':'1'}" d="${a.points.map((v,i)=>(i?'L':'M')+v[0]+','+v[1]).join(' ')}"/>`;const [x,y]=a.start,[u,v]=a.end;if(a.type==='text')return `<text x="${x}" y="${y}" fill="${escape(a.color)}" font-size="${Math.max(18,a.width*5)}" data-index="${index}">${escape(a.text)}</text>`;if(a.type==='line')return `<path ${style} d="M${x} ${y}L${u} ${v}"/>`;if(a.type==='arrow'){const angle=Math.atan2(v-y,u-x),len=15;return `<path ${style} d="M${x} ${y}L${u} ${v}M${u-len*Math.cos(angle-.45)} ${v-len*Math.sin(angle-.45)}L${u} ${v}L${u-len*Math.cos(angle+.45)} ${v-len*Math.sin(angle+.45)}"/>`}if(a.type==='rect')return `<rect ${style} x="${Math.min(x,u)}" y="${Math.min(y,v)}" width="${Math.abs(u-x)}" height="${Math.abs(v-y)}"/>`;return `<ellipse ${style} cx="${(x+u)/2}" cy="${(y+v)/2}" rx="${Math.abs(u-x)/2}" ry="${Math.abs(v-y)/2}"/>`}).join('');tools.querySelectorAll('[data-tool]').forEach(b=>b.classList.toggle('active',b.dataset.tool===mode));tools.querySelector('[data-command="undo"]').disabled=!undoStack.length;tools.querySelector('[data-command="redo"]').disabled=!redoStack.length}
+ const point=e=>{const rect=svg.getBoundingClientRect();return [Math.max(0,Math.min(600,(e.clientX-rect.left)*600/rect.width)),Math.max(0,Math.min(450,(e.clientY-rect.top)*450/rect.height))]};
+ tools.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{mode=b.dataset.tool;draw()});tools.querySelector('[type=color]').oninput=e=>color=e.target.value;tools.querySelector('[type=number]').onchange=e=>width=Math.max(1,Math.min(20,+e.target.value));
+ tools.querySelectorAll('[data-command]').forEach(b=>b.onclick=()=>{const cmd=b.dataset.command;if(cmd==='undo'&&undoStack.length){redoStack.push(items);items=undoStack.pop()}if(cmd==='redo'&&redoStack.length){undoStack.push(items);items=redoStack.pop()}if(cmd==='clear'){if(!confirm(t('Очистить черновик?','Clear the draft?')))return;remember();items=[]}if(cmd.startsWith('zoom')){zoom=Math.max(1,Math.min(2.5,zoom+(cmd==='zoom-in'?.25:-.25)));svg.style.width=zoom*100+'%'}draw();save()});
+ svg.onpointerdown=e=>{e.preventDefault();const pt=point(e);svg.setPointerCapture(e.pointerId);if(mode==='pan'){const viewport=svg.parentElement;current={pan:true,x:e.clientX,y:e.clientY,left:viewport.scrollLeft,top:viewport.scrollTop};return}if(mode==='eraser'){const index=e.target.dataset.index;if(index!==undefined){remember();items.splice(+index,1);draw();save()}return}if(mode==='text'){const text=prompt(t('Введите заметку','Enter a note'));if(text){remember();items.push({type:mode,color,width,start:pt,end:pt,text});draw();save()}return}remember();current={type:mode,color,width:mode==='marker'?width*5:width,start:pt,end:pt,points:[pt]};items.push(current);draw()};
+ svg.onpointermove=e=>{if(!current)return;if(current.pan){svg.parentElement.scrollLeft=current.left-(e.clientX-current.x);svg.parentElement.scrollTop=current.top-(e.clientY-current.y);return}const pt=point(e);current.end=pt;current.points.push(pt);draw()};const finish=()=>{if(!current)return;const isPan=current.pan;current=null;if(!isPan)save()};svg.onpointerup=finish;svg.onpointercancel=finish;note.onchange=save;draw();return ()=>{svg.onpointerdown=null;svg.onpointermove=null;svg.onpointerup=null}
 }
-function escAttr(s) {
-  return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+function renderStage(){if(runtimeCleanup)runtimeCleanup();runtimeCleanup=null;if(testMode)return;const mode=project.mode;const titles={letters:'Пропущенные буквы',punctuation:'Знаки на своих местах',syntax:'Разберите историю',analysis:'Вдумчивое чтение'};$('work-title').textContent=titles[mode];$('work-desc').textContent=previewOnly?'Сцена ученика. Для проверки ответов нажмите «Тестировать».':mode==='letters'?'Нажмите на букву в тексте, чтобы превратить её в пропуск.':mode==='punctuation'?'Отметьте знаки препинания прямо в тексте.':mode==='syntax'?'Назначьте словам роли или выделите группу слов.':'Составьте задание и попробуйте инструменты черновика.';$('mode-label').textContent=MODES[mode].toUpperCase();$('annotation-count').textContent=mode==='analysis'?'Режим письменного анализа':`${currentAnnotations().length} элементов задания`;
+ const p=clone(project);runtimeCleanup=gameRuntime($('stage'),p,FOREST,true,(kind,start,end)=>{if(previewOnly)return;if(kind==='gap')toggleGap(start,end);if(kind==='character'&&eligible(project.document.text[start]))addRange(start,end);if(kind==='syntax'){const existing=project.annotations.syntax.find(a=>a.start===start&&a.end===end);if(existing)change(p=>p.annotations.syntax=p.annotations.syntax.filter(a=>a.start!==start||a.end!==end));else addRange(start,end)}},(items,note)=>{snapshot();project.analysis.drawing=clone(items);project.analysis.note=note;scheduleSave();updateHistory()});
+ if(previewOnly){$('stage').querySelectorAll('button').forEach(b=>b.disabled=true)}
+ $('stage').querySelector('.reading').style.zoom=project.editor.zoom/100;
+ $('stage').onpointerup=()=>{const sel=window.getSelection();if(sel.isCollapsed||!sel.rangeCount)return;const r=sel.getRangeAt(0),reading=$('stage').querySelector('.reading');if(!reading.contains(r.startContainer)||!reading.contains(r.endContainer))return;const elems=[...reading.querySelectorAll('[data-start]')].filter(el=>r.intersectsNode(el));if(elems.length){selection={start:Math.min(...elems.map(x=>+x.dataset.start)),end:Math.max(...elems.map(x=>+x.dataset.end))};notify('Фрагмент выделен. Используйте кнопку в настройках слева.')}};
 }
-function textToParagraphs(t) {
-  return t.split(/\n/).map(l =>
-    l.trim() === ''
-      ? '<br/>'
-      : `<p style="margin-bottom:.6em">${escHtml(l)}</p>`
-  ).join('');
+function startTest(){if(project.mode!=='analysis'&&!currentAnnotations().length){notify('Сначала отметьте хотя бы один элемент задания.');return}if(runtimeCleanup)runtimeCleanup();testMode=true;const iframe=document.createElement('iframe');iframe.className='test-frame';iframe.title='Тестирование игры';iframe.setAttribute('sandbox','allow-scripts allow-modals');iframe.srcdoc=exportHtml();$('stage').replaceChildren(iframe);$('test').textContent='↩ К редактированию';$('preview-toggle').disabled=true;$('undo').disabled=true;$('redo').disabled=true;$('stage').onpointerup=null}
+function stopTest(){testMode=false;$('test').textContent='▷ Тестировать';$('preview-toggle').disabled=false;render()}
+function exportProject(){const p=clone(project);delete p.editor;delete p.assets;p.analysis.note='';p.analysis.drawing=[];p.document.pages=[];p.editor={showAnswers:false};return p}
+function exportHtml(){const css=$('game-css').textContent;const safe=JSON.stringify(exportProject()).replace(/</g,'\\u003c').replace(/>/g,'\\u003e').replace(/&/g,'\\u0026');return '<!doctype html><html lang="'+esc(project.meta.lang)+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(project.meta.title)+'</title><style>'+css+'body{margin:0;background:'+project.theme.background+'}.game{border-radius:0;min-height:100vh;aspect-ratio:auto;max-width:none}.game .paper{max-height:65vh}.hud{flex-shrink:0}.bank{flex-shrink:0}</style></head><body><main id="game"></main><script>'+setupDraft.toString()+'\n'+gameRuntime.toString()+'\ngameRuntime(document.getElementById("game"),'+safe+','+JSON.stringify(FOREST)+',false);<'+'/script></body></html>'}
+function geniallyCode(){return '<iframe title="'+esc(project.meta.title)+'" style="display:block;width:100%;height:100%;min-height:480px;border:0;aspect-ratio:16/9" sandbox="allow-scripts allow-modals" srcdoc="'+esc(exportHtml())+'"></iframe>'}
+function openModal(html){$('modal-content').innerHTML=html;$('modal-content').style.background='';$('modal').showModal()}
+function closeModal(){$('modal').close()}
+function download(content,name,type){const blob=content instanceof Blob?content:new Blob([content],{type:type||'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000)}
+function saveProject(){download(JSON.stringify(project,null,2),'лесная-история.txtproj','application/json');notify('Проект сохранён в файл.')}
+async function copyCode(){const code=geniallyCode();try{await navigator.clipboard.writeText(code);notify('Код скопирован')}catch{showCode(code,'Выделите и скопируйте код вручную: Ctrl / Cmd + C.')}}
+function showCode(code,desc='Вставьте код через «Вставка → Другие → Код» в Genially. Задайте блоку достаточную высоту, не менее 480 px.'){openModal(`<h2>Игра для Genially</h2><p>${esc(desc)}</p><p>Автономный runtime · ${(new Blob([code]).size/1024).toFixed(1)} КБ · без панели редактора</p><textarea class="code-box" id="export-code" readonly aria-label="Код для Genially"></textarea><div class="dialog-actions"><button id="download-code">Скачать код</button><button class="primary" id="copy-code">Копировать</button></div>`);$('export-code').value=code;$('download-code').onclick=()=>download(code,'genially-code.txt');$('copy-code').onclick=copyCode;$('export-code').focus();$('export-code').select()}
+function validateProject(value){
+ const d=defaults();if(!value||typeof value!=='object'||Array.isArray(value))throw Error('Файл не содержит проект.');if(value.version===1&&typeof value.text==='string'){d.document.text=value.text;d.annotations.letters=[];d.theme.font=value.font||'Georgia';d.theme.size=Number(value.fontSize)||25;d.theme.ink=value.color||d.theme.ink;d.analysis.note=value.analysis||'';return d}
+ if(!value||value.version!=='1.0.0'||typeof value.document?.text!=='string'||!MODES[value.mode])throw Error('Неизвестный формат или версия проекта.');
+ for(const key of ['meta','document','annotations','gameplay','theme','analysis','endScreens','editor']){if(value[key]&&typeof value[key]==='object'&&!Array.isArray(value[key]))d[key]={...d[key],...value[key]}}
+ d.mode=value.mode;d.assets=value.assets||{};if(d.document.text.length>250000)throw Error('Текст слишком длинный (максимум 250 000 символов).');
+ for(const mode of ['letters','punctuation','syntax']){const list=d.annotations[mode];if(!Array.isArray(list))throw Error('Повреждена разметка.');let last=-1;list.sort((a,b)=>a.start-b.start);for(const a of list){if(!Number.isInteger(a.start)||!Number.isInteger(a.end)||a.start<0||a.end<=a.start||a.end>d.document.text.length||a.start<last)throw Error('Повреждены позиции разметки.');if(a.answer!==d.document.text.slice(a.start,a.end))throw Error('Ответы не соответствуют тексту.');if(mode==='syntax'&&!ROLES[a.role])throw Error('Неизвестный член предложения.');last=a.end}}
+ const number=(x,min,max,fallback)=>Number.isFinite(Number(x))?Math.max(min,Math.min(max,Number(x))):fallback;d.gameplay.lives=number(d.gameplay.lives,0,10,3);d.gameplay.seconds=number(d.gameplay.seconds,10,3600,180);d.gameplay.points=number(d.gameplay.points,1,1000,10);if(!['off','up','down'].includes(d.gameplay.timer))throw Error('Неверный режим таймера.');for(const [key,min,max] of [['size',14,48],['leading',1,3],['radius',0,40],['padding',8,60],['opacity',30,100],['tileSize',44,80],['tileRadius',0,40]])d.theme[key]=number(d.theme[key],min,max,defaults().theme[key]);
+ for(const key of ['background','paper','ink','accent','tile','button'])if(!/^#[\da-f]{6}$/i.test(d.theme[key]))throw Error('Некорректный цвет.');
+ if(typeof d.theme.font!=='string'||!/^[-\w\s]+$/.test(d.theme.font))throw Error('Некорректный шрифт.');
+ const imageValid=s=>!s||typeof s==='string'&&/^data:image\/(png|jpeg|webp|gif);base64,[a-z\d+/=\s]+$/i.test(s);if(!imageValid(d.theme.backgroundImage))throw Error('Некорректный фон.');for(const k of ['win','lose','time']){d.endScreens[k]={...defaults().endScreens[k],...d.endScreens[k]};if(!imageValid(d.endScreens[k].image)||!/^#[\da-f]{6}$/i.test(d.endScreens[k].background))throw Error('Некорректный финальный экран.')}
+ if(!Array.isArray(d.analysis.drawing)||d.analysis.drawing.length>10000)throw Error('Некорректный черновик.');for(const a of d.analysis.drawing){if(!['pen','marker','line','arrow','circle','rect','text'].includes(a.type)||!/^#[\da-f]{6}$/i.test(a.color)||!Number.isFinite(a.width)||a.width<1||a.width>100)throw Error('Некорректный рисунок.');const pts=[a.start,a.end,...(a.points||[])];if(pts.some(pt=>!Array.isArray(pt)||pt.length!==2||pt.some(v=>!Number.isFinite(v)||v<0||v>600)))throw Error('Некорректные координаты рисунка.')}
+ if(typeof d.gameplay.decoys!=='string')throw Error('Некорректный список плиток.');for(const mode of ['letters','punctuation','syntax'])if(d.annotations[mode].length>10000)throw Error('Слишком много элементов задания.');d.gameplay.lives=Math.round(d.gameplay.lives);d.gameplay.seconds=Math.round(d.gameplay.seconds);if(!Array.isArray(d.document.formats)||d.document.formats.length>1000||d.document.formats.some(f=>!['bold','italic'].includes(f.style)||!Number.isInteger(f.start)||!Number.isInteger(f.end)||f.start<0||f.end<=f.start||f.end>d.document.text.length))throw Error('Повреждено форматирование.');d.meta.title=String(d.meta.title).slice(0,200);d.meta.lang=['ru','en'].includes(d.meta.lang)?d.meta.lang:'ru';d.analysis.note=String(d.analysis.note||'');d.editor.zoom=number(d.editor.zoom,80,160,100);d.editor.every=number(d.editor.every,1,50,3);return d;
 }
-
-// ══════════════════════════════════════════════
-//  Editor input
-// ══════════════════════════════════════════════
-editor.addEventListener('input', () => {
-  state.rawText = editor.value;
-  scheduleRender();
-});
-
-// ══════════════════════════════════════════════
-//  Style controls
-// ══════════════════════════════════════════════
-fontSelect.addEventListener('change', () => { state.font     = fontSelect.value; scheduleRender(); });
-fontSizeInp.addEventListener('input', () => { state.fontSize = +fontSizeInp.value || 16; scheduleRender(); });
-fontColor.addEventListener('input',   () => { state.color    = fontColor.value; scheduleRender(); });
-langSelect.addEventListener('change', () => { state.lang     = langSelect.value; });
-
-// ══════════════════════════════════════════════
-//  Check answers
-// ══════════════════════════════════════════════
-checkBtn.addEventListener('click', () => {
-  state.gaps.forEach((g, i) => {
-    g.correct = (g.userInput.toLowerCase() === g.char.toLowerCase());
-  });
-  // Update classes without full re-render
-  preview.querySelectorAll('input[data-gap]').forEach(inp => {
-    const i = +inp.dataset.gap;
-    const box = inp.closest('.gap-box');
-    box.className = 'gap-box ' + (state.gaps[i].correct ? 'correct' : 'incorrect');
-  });
-  const total   = state.gaps.length;
-  const correct = state.gaps.filter(g => g.correct).length;
-  showToast(`Правильно: ${correct} / ${total}`);
-});
-
-// ══════════════════════════════════════════════
-//  Tasks dropdown
-// ══════════════════════════════════════════════
-const tasksDropdown = document.getElementById('tasks-dropdown');
-const tasksMenu     = document.getElementById('tasks-menu');
-
-document.getElementById('btn-tasks').addEventListener('click', e => {
-  e.stopPropagation();
-  tasksMenu.classList.toggle('open');
-});
-document.addEventListener('click', () => tasksMenu.classList.remove('open'));
-
-tasksMenu.querySelectorAll('.dropdown-item').forEach(item => {
-  item.addEventListener('click', e => {
-    const task = e.target.dataset.task;
-    tasksMenu.classList.remove('open');
-    if (task === 'analysis') {
-      openModal();
-      return;
-    }
-    state.activeTask = task;
-    state.gaps = [];
-    scheduleRender();
-  });
-});
-
-// ══════════════════════════════════════════════
-//  Analysis modal
-// ══════════════════════════════════════════════
-function openModal() {
-  modalOverlay.classList.add('open');
-  analysisDraft.focus();
-}
-document.getElementById('btn-close-modal').addEventListener('click', () => {
-  modalOverlay.classList.remove('open');
-});
-modalOverlay.addEventListener('click', e => {
-  if (e.target === modalOverlay) modalOverlay.classList.remove('open');
-});
-
-// ══════════════════════════════════════════════
-//  Genially code generation
-// ══════════════════════════════════════════════
-document.getElementById('btn-genially').addEventListener('click', () => {
-  const code = buildGeniallyCode();
-  codeArea.textContent = code;
-  codeOutput.classList.add('open');
-});
-document.getElementById('btn-close-code').addEventListener('click', () => {
-  codeOutput.classList.remove('open');
-});
-document.getElementById('btn-copy-code').addEventListener('click', () => {
-  navigator.clipboard.writeText(codeArea.textContent).then(() => showToast('Код скопирован!'));
-});
-
-function buildGeniallyCode() {
-  const text = (state.rawText || '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const lines = text.split('\n').map(l =>
-    `  <p style="margin:0 0 .5em 0">${l}</p>`
-  ).join('\n');
-  return `<!-- Genially HTML-блок — вставьте в редактор кода Genially -->
-<div style="
-  font-family: ${state.font};
-  font-size: ${state.fontSize}px;
-  color: ${state.color};
-  line-height: 1.9;
-  padding: 16px;
-  box-sizing: border-box;
-">
-${lines}
-</div>`;
-}
-
-// ══════════════════════════════════════════════
-//  Save / Load project
-// ══════════════════════════════════════════════
-document.getElementById('btn-save').addEventListener('click', () => {
-  const proj = {
-    version: 1,
-    text:     state.rawText,
-    font:     state.font,
-    fontSize: state.fontSize,
-    color:    state.color,
-    lang:     state.lang,
-    analysis: analysisDraft.value,
-  };
-  const blob = new Blob([JSON.stringify(proj, null, 2)], { type: 'application/json' });
-  downloadBlob(blob, 'project.gtproj');
-  showToast('Проект сохранён');
-});
-
-document.getElementById('btn-load').addEventListener('click', () => {
-  document.getElementById('file-input').click();
-});
-document.getElementById('file-input').addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  e.target.value = '';
-  if (file.name.endsWith('.gtproj')) {
-    file.text().then(t => {
-      try {
-        const proj = JSON.parse(t);
-        loadProject(proj);
-        showToast('Проект загружен');
-      } catch { showToast('Ошибка формата файла'); }
-    });
-  } else {
-    file.text().then(t => {
-      editor.value = t;
-      state.rawText = t;
-      scheduleRender();
-    });
-  }
-});
-
-function loadProject(proj) {
-  state.rawText  = proj.text  || '';
-  state.font     = proj.font  || state.font;
-  state.fontSize = proj.fontSize || state.fontSize;
-  state.color    = proj.color || state.color;
-  state.lang     = proj.lang  || 'none';
-  analysisDraft.value = proj.analysis || '';
-
-  editor.value          = state.rawText;
-  fontSelect.value      = state.font;
-  fontSizeInp.value     = state.fontSize;
-  fontColor.value       = state.color;
-  langSelect.value      = state.lang;
-
-  state.activeTask = 'none';
-  state.gaps = [];
-  scheduleRender();
-}
-
-// ══════════════════════════════════════════════
-//  PDF / TXT open
-// ══════════════════════════════════════════════
-document.getElementById('btn-paste-pdf').addEventListener('click', () => {
-  document.getElementById('pdf-input').click();
-});
-document.getElementById('pdf-input').addEventListener('change', async e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  e.target.value = '';
-
-  if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
-    const t = await file.text();
-    editor.value = t;
-    state.rawText = t;
-    scheduleRender();
-    return;
-  }
-
-  // PDF: load pdf.js from CDN
-  showToast('Читаем PDF…');
-  if (!window.pdfjsLib) {
-    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
-    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  }
-  try {
-    const buf  = await file.arrayBuffer();
-    const doc  = await pdfjsLib.getDocument({ data: buf }).promise;
-    let full   = '';
-    for (let p = 1; p <= doc.numPages; p++) {
-      const page    = await doc.getPage(p);
-      const content = await page.getTextContent();
-      full += content.items.map(i => i.str).join(' ') + '\n';
-    }
-    editor.value = full.trim();
-    state.rawText = full.trim();
-    scheduleRender();
-    showToast('PDF загружен');
-  } catch (err) {
-    showToast('Не удалось прочитать PDF');
-    console.error(err);
-  }
-});
-
-// ══════════════════════════════════════════════
-//  Export HTML
-// ══════════════════════════════════════════════
-document.getElementById('btn-export-html').addEventListener('click', () => {
-  const body = preview.innerHTML;
-  const html = `<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8"/>
-<title>Текст</title>
-<style>
-  body{margin:40px auto;max-width:720px;font-family:${state.font};font-size:${state.fontSize}px;color:${state.color};line-height:1.9}
-  .gap-box{display:inline-block;min-width:1.4em;border-bottom:2px solid currentColor;text-align:center}
-</style>
-</head>
-<body>${body}</body>
-</html>`;
-  const blob = new Blob([html], { type: 'text/html' });
-  downloadBlob(blob, 'text.html');
-  showToast('HTML скачан');
-});
-
-// ══════════════════════════════════════════════
-//  Translate (MyMemory free API)
-// ══════════════════════════════════════════════
-document.getElementById('btn-translate').addEventListener('click', async () => {
-  const target = langSelect.value;
-  if (target === 'none') { showToast('Выберите язык перевода'); return; }
-  const text = state.rawText.trim();
-  if (!text) { showToast('Нет текста для перевода'); return; }
-  showToast('Переводим…');
-  try {
-    // MyMemory API — free, no key required
-    const chunks = splitIntoChunks(text, 450);
-    const parts  = await Promise.all(chunks.map(ch => translateChunk(ch, target)));
-    const result = parts.join('\n');
-    editor.value = result;
-    state.rawText = result;
-    scheduleRender();
-    showToast('Перевод готов');
-  } catch (err) {
-    showToast('Ошибка перевода');
-    console.error(err);
-  }
-});
-
-async function translateChunk(text, targetLang) {
-  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=auto|${targetLang}`;
-  const res  = await fetch(url);
-  const data = await res.json();
-  return data.responseData.translatedText || text;
-}
-
-function splitIntoChunks(text, maxLen) {
-  const sentences = text.match(/[^.!?\n]+[.!?\n]?/g) || [text];
-  const chunks = [];
-  let cur = '';
-  sentences.forEach(s => {
-    if ((cur + s).length > maxLen && cur) { chunks.push(cur.trim()); cur = s; }
-    else cur += s;
-  });
-  if (cur.trim()) chunks.push(cur.trim());
-  return chunks;
-}
-
-// ══════════════════════════════════════════════
-//  Dark mode toggle
-// ══════════════════════════════════════════════
-document.getElementById('btn-theme').addEventListener('click', () => {
-  const el = document.body;
-  el.dataset.theme = el.dataset.theme === 'dark' ? 'light' : 'dark';
-});
-
-// ══════════════════════════════════════════════
-//  Keyboard shortcuts
-// ══════════════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    document.getElementById('btn-save').click();
-  }
-  if (e.key === 'Escape') {
-    modalOverlay.classList.remove('open');
-    tasksMenu.classList.remove('open');
-    codeOutput.classList.remove('open');
-  }
-});
-
-// ══════════════════════════════════════════════
-//  Helpers
-// ══════════════════════════════════════════════
-function showToast(msg, duration = 2400) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), duration);
-}
-
-function downloadBlob(blob, name) {
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(blob), download: name
-  });
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-}
-
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = src; s.onload = resolve; s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
-
-// ══════════════════════════════════════════════
-//  Init
-// ══════════════════════════════════════════════
-renderPreview();
+$('save').onclick=saveProject;$('load').onclick=()=>$('project-file').click();$('export').onclick=()=>{download(exportHtml(),'лесная-игра.html','text/html');notify('Автономная игра скачана.')};$('lighten').onclick=()=>showCode(geniallyCode());$('copy').onclick=copyCode;$('undo').onclick=undo;$('redo').onclick=redo;$('test').onclick=()=>testMode?stopTest():startTest();$('preview-toggle').onclick=()=>{previewOnly=!previewOnly;$('preview-toggle').textContent=previewOnly?'↩ В мастерскую':'◉ Предпросмотр';document.body.classList.toggle('view-only',previewOnly);renderStage()};$('close-modal').onclick=closeModal;
+$('project-file').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{if(file.size>30*1024*1024)throw Error('Проект превышает 30 МБ.');const next=validateProject(JSON.parse(await file.text()));if(testMode)stopTest();change(()=>{project=next;tab=project.mode;selection=null},true);notify('Проект восстановлен.')}catch(err){notify('Не удалось загрузить проект: '+err.message)}};
+async function readPdf(file){notify('Читаем PDF…');try{if(!window.pdfjsLib)await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';s.onload=resolve;s.onerror=()=>reject(Error('Для первой загрузки PDF нужен доступ к интернету.'));document.head.append(s)});pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';const doc=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;pdfPages=[];for(let i=1;i<=doc.numPages;i++){const page=await doc.getPage(i),content=await page.getTextContent();let text='',lastY=null,lastX=null;for(const item of content.items){if(!('str'in item))continue;const y=item.transform[5],x=item.transform[4];if(lastY!==null&&Math.abs(y-lastY)>4)text+='\n';else if(lastX!==null&&x>lastX+1)text+=' ';text+=item.str;if(item.hasEOL){text+='\n';lastY=null;lastX=null}else{lastY=y;lastX=x+item.width}}pdfPages.push({number:i,text:text.trim()})}await doc.destroy();if(!pdfPages.some(p=>p.text.trim())){notify('В документе не найден текстовый слой. Вставьте текст вручную; распознавание сканов не подключено.');return}openModal('<h2>Страницы PDF</h2><p>Выберите страницы, которые нужно добавить. Затем текст можно исправить в редакторе.</p><div style="max-height:350px;overflow:auto">'+pdfPages.map(p=>`<label class="pdf-page"><input type="checkbox" data-page="${p.number}" checked><span>Страница ${p.number} · ${esc(p.text.slice(0,95))}${p.text.length>95?'…':''}</span></label>`).join('')+'</div><div class="dialog-actions"><button id="pdf-insert" class="primary">Использовать выбранные страницы</button></div>');$('pdf-insert').onclick=()=>{const indices=[...$('modal-content').querySelectorAll('[data-page]:checked')].map(b=>+b.dataset.page);const pages=pdfPages.filter(p=>indices.includes(p.number));if(!pages.length){notify('Выберите хотя бы одну страницу.');return}if(editText(pages.map(p=>p.text).join('\n\n'))){project.document.pages=pages;closeModal();tab='text';render();scheduleSave();notify('Текст PDF добавлен.')}}}catch(err){notify('Не удалось прочитать PDF: '+err.message)}}
+$('text-file').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;if(file.size>50*1024*1024){notify('Документ превышает 50 МБ.');return}if(/\.pdf$/i.test(file.name))await readPdf(file);else{const text=await file.text();if(text.length>250000){notify('Максимум 250 000 символов.');return}editText(text)}};
+function stripGifMetadata(buffer){const b=new Uint8Array(buffer);if(b.length<13||String.fromCharCode(...b.slice(0,3))!=='GIF')throw Error('Повреждённый GIF.');const chunks=[];let pos=13+((b[10]&128)?3*(2**((b[10]&7)+1)):0);chunks.push(b.slice(0,pos));const blocks=start=>{let j=start;while(j<b.length){const n=b[j++];if(!n)return j;j+=n}throw Error('Повреждённые блоки GIF.')};while(pos<b.length){const start=pos,tag=b[pos++];if(tag===59){chunks.push(b.slice(start,pos));break}if(tag===33){const label=b[pos++];const end=blocks(pos);if(label!==254&&!(label===255&&String.fromCharCode(...b.slice(pos+1,pos+12))!=='NETSCAPE2.0'&&String.fromCharCode(...b.slice(pos+1,pos+12))!=='ANIMEXTS1.0'))chunks.push(b.slice(start,end));pos=end}else if(tag===44){if(pos+9>b.length)throw Error('Повреждённый GIF.');const packed=b[pos+8];pos+=9;if(packed&128)pos+=3*(2**((packed&7)+1));pos++;pos=blocks(pos);chunks.push(b.slice(start,pos))}else throw Error('Неизвестная структура GIF.')}return new Blob(chunks,{type:'image/gif'})}
+function blobData(blob){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(blob)})}
+$('asset-file').onchange=async e=>{const file=e.target.files[0];e.target.value='';if(!file)return;try{if(!['image/png','image/jpeg','image/webp','image/gif'].includes(file.type))throw Error('Поддерживаются PNG, JPEG, WebP и GIF.');if(file.size>25*1024*1024)throw Error('Файл превышает 25 МБ.');let result;
+ if(file.type==='image/gif')result=stripGifMetadata(await file.arrayBuffer());else{const url=URL.createObjectURL(file);try{const img=new Image();img.src=url;await img.decode();const scale=Math.min(1,1920/Math.max(img.width,img.height));const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);result=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',.86));if(!result)throw Error('Не удалось обработать изображение.')}finally{URL.revokeObjectURL(url)}}const data=await blobData(result);change(p=>{if(assetTarget==='backgroundImage')p.theme.backgroundImage=data;else p.endScreens[assetTarget.slice(4)].image=data;p.assets[assetTarget]={name:file.name,before:file.size,after:result.size,type:result.type}},true);const msg=`${file.name}: ${(file.size/1024).toFixed(0)} → ${(result.size/1024).toFixed(0)} КБ`;notify(msg);if($('asset-info'))$('asset-info').textContent=msg+(file.type==='image/gif'?' · анимация сохранена, удалены лишние метаданные':'');if(new Blob([JSON.stringify(project)]).size>20*1024*1024)notify('Проект превышает 20 МБ. Уменьшите изображения и сохраните проект в файл.')}catch(err){notify(err.message)}};
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveProject()}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!testMode){e.preventDefault();e.shiftKey?redo():undo()}if(e.key==='Escape'&&$('modal').open)closeModal()});
+render();try{const saved=localStorage.getItem('forest-text-project-v1');if(saved){const candidate=validateProject(JSON.parse(saved));openModal('<h2>Вернуться к вашей истории?</h2><p>В браузере найден сохранённый проект «'+esc(candidate.meta.title)+'».</p><div class="dialog-actions"><button id="fresh-project">Начать заново</button><button class="primary" id="restore-project">Продолжить редактирование</button></div>');$('restore-project').onclick=()=>{project=candidate;tab=project.mode;closeModal();render()};$('fresh-project').onclick=()=>{closeModal();scheduleSave()}}}catch{notify('Сохранение браузера недоступно или повреждено. Открыт новый проект.')}
 </script>
-</body>
-</html>
+</body></html>
